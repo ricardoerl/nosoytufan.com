@@ -5,6 +5,7 @@ import { useLocale } from "@/hooks/useLocale";
 import type { Comparison } from "@/lib/instagram/compare";
 import { ShareIcon } from "./icons";
 import { Odometer } from "./Odometer";
+import { PartialExportWarning } from "./PartialExportWarning";
 import { ResultTabs, type Tab } from "./ResultTabs";
 import { SearchBar } from "./SearchBar";
 import { Stats } from "./Stats";
@@ -15,12 +16,15 @@ const PAGE = 60;
 
 interface Props {
   data: Comparison;
+  /** Start date (Unix seconds) of a date-limited followers list, or null if complete. */
+  partialSince: number | null;
   ignore: (u: string) => void;
   restore: (u: string) => void;
   onShare: () => void;
+  onGuide: (step?: number) => void;
 }
 
-export function Results({ data, ignore, restore, onShare }: Props) {
+export function Results({ data, partialSince, ignore, restore, onShare, onGuide }: Props) {
   const { t, f, locale } = useLocale();
   const [tab, setTab] = useState<Tab>("pending");
   const [query, setQuery] = useState("");
@@ -110,6 +114,8 @@ export function Results({ data, ignore, restore, onShare }: Props) {
           </button>
         </div>
       </section>
+
+      {partialSince !== null && <PartialExportWarning since={partialSince} onGuide={() => onGuide(3)} />}
 
       <div ref={listTopRef} className="flex flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:gap-5 md:px-12 md:py-7">
         <SearchBar value={query} onChange={setQuery} />

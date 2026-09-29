@@ -3,6 +3,15 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] — 2026-09-29
+
+### Fixed
+
+- Exports requested with a date range (e.g. "Last 3 months") only include recent followers, so people who do
+  follow you back were listed as not following back. The app now detects this and shows a warning with the
+  date the followers list starts at, plus a shortcut to the guide step to request the file with "All time".
+- The guide's warning now mentions choosing the "All time" date range.
+
 ## [0.1.0] — 2026-09-28
 
 First public release.
@@ -21,4 +30,5 @@ First public release.
 - "How it works" section and a transparency section about the risks of giving other apps your password.
 - CI with Git Flow checks, and automatic deployment to GitHub Pages from `main`.
 
+[0.1.1]: https://github.com/ricardoerl/nosoytufan.com/releases/tag/v0.1.1
 [0.1.0]: https://github.com/ricardoerl/nosoytufan.com/releases/tag/v0.1.0

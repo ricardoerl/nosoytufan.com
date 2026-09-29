@@ -70,6 +70,8 @@ describe("extractFromJson", () => {
     expect(extractFromJson(followersRoot, "followers")).toEqual({
       kind: "followers",
       usernames: ["ana.gomez", "beto_99", "carla"],
+      oldest: 1700000000,
+      newest: 1700000000,
     });
   });
   it("reads relationships_followers", () => {
@@ -85,7 +87,21 @@ describe("extractFromJson", () => {
     expect(extractFromJson([{ user: "x" }], "followers")).toBeNull();
   });
   it("an empty list is valid", () => {
-    expect(extractFromJson({ relationships_following: [] }, null)).toEqual({ kind: "following", usernames: [] });
+    expect(extractFromJson({ relationships_following: [] }, null)).toEqual({
+      kind: "following",
+      usernames: [],
+      oldest: null,
+      newest: null,
+    });
+  });
+  it("keeps the oldest timestamp and ignores missing or invalid ones", () => {
+    const items = [
+      { title: "a.b", string_list_data: [{ timestamp: 1_600_000_000 }] },
+      { title: "c.d", string_list_data: [{ timestamp: 1_500_000_000 }] },
+      { title: "e.f", string_list_data: [{}] },
+      { title: "g.h", string_list_data: [{ timestamp: "yesterday" }] },
+    ];
+    expect(extractFromJson({ relationships_following: items }, null)?.oldest).toBe(1_500_000_000);
   });
 });
 
@@ -127,6 +143,15 @@ describe("parseZipEntries", () => {
       ok: false,
       error: "not-instagram",
     });
+  });
+  it("returns the oldest timestamp of each list, across merged followers_N files", () => {
+    const at = (value: string, timestamp: number) => ({ string_list_data: [{ value, timestamp }] });
+    const r = parseZipEntries([
+      { name: "followers_1.json", text: j([at("a.a", 1_700_000_000)]) },
+      { name: "followers_2.json", text: j([at("b.b", 1_650_000_000)]) },
+      { name: "following.json", text: j({ relationships_following: [at("c.c", 1_400_000_000)] }) },
+    ]);
+    expect(r.ok && r.lists.oldest).toEqual({ followers: 1_650_000_000, following: 1_400_000_000 });
   });
   it("returns null for the missing list", () => {
     const r = parseZipEntries([{ name: "followers_1.json", text: j(followersRoot) }]);

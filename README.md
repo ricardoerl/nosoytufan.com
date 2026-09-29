@@ -132,6 +132,13 @@ all text.
 An empty array (`relationships_following: []`) is a valid format (an empty list) and does not trigger
 `schema-changed`. All parsing is wrapped in `try/catch`.
 
+**Date-limited exports** (`lib/instagram/coverage.ts`): if the export was requested with a date range instead
+of "All time", Instagram only includes followers gained within that range, so people who do follow back would
+be listed as not following back. The parser keeps the oldest timestamp of each list and the newest overall;
+`partialFollowersSince()` flags the export when every follower falls within the last ~year (400 days) of the
+export while following reaches more than 90 days further back. Results then show a warning with the cut-off
+date and a shortcut to the guide step where "All time" is chosen.
+
 ### Comparison engine (`lib/instagram/compare.ts`)
 
 ```ts

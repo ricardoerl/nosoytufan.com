@@ -12,6 +12,7 @@ import type { UploadStatus } from "@/components/UploadStates";
 import { useIdle } from "@/hooks/useIdle";
 import { useWhitelist } from "@/hooks/useWhitelist";
 import { compare } from "@/lib/instagram/compare";
+import { partialFollowersSince } from "@/lib/instagram/coverage";
 import type { ParsedLists } from "@/lib/instagram/parse";
 import { storage } from "@/lib/storage";
 import { readExport, type ProgressStep } from "@/lib/zip-protocol";
@@ -22,9 +23,11 @@ const MIN_PROCESSING_MS = 700;
 interface Lists {
   followers: string[];
   following: string[];
+  /** Set when the export only includes recent followers (date-limited request). */
+  partialSince: number | null;
 }
 
-type HalfLists = Pick<ParsedLists, "followers" | "following">;
+type HalfLists = Pick<ParsedLists, "followers" | "following" | "oldest" | "newest">;
 
 export default function Home() {
   const [status, setStatus] = useState<UploadStatus>({ kind: "idle" });
@@ -83,13 +86,25 @@ export default function Home() {
         return;
       }
       // With loose .json files, merge with the half we already had.
+      const { lists: got } = result;
+      const prev = partial.current;
       const merged: HalfLists = {
-        followers: result.lists.followers ?? partial.current?.followers ?? null,
-        following: result.lists.following ?? partial.current?.following ?? null,
+        followers: got.followers ?? prev?.followers ?? null,
+        following: got.following ?? prev?.following ?? null,
+        oldest: {
+          followers: got.followers ? got.oldest.followers : (prev?.oldest.followers ?? null),
+          following: got.following ? got.oldest.following : (prev?.oldest.following ?? null),
+        },
+        newest: Math.max(got.newest ?? -Infinity, prev?.newest ?? -Infinity),
       };
+      if (!Number.isFinite(merged.newest)) merged.newest = null;
       if (merged.followers && merged.following) {
         partial.current = null;
-        setLists({ followers: merged.followers, following: merged.following });
+        setLists({
+          followers: merged.followers,
+          following: merged.following,
+          partialSince: partialFollowersSince(merged),
+        });
         setStatus({ kind: "idle" });
         window.scrollTo({ top: 0 });
       } else {
@@ -121,7 +136,14 @@ export default function Home() {
       />
 
       {comparison ? (
-        <Results data={comparison} ignore={whitelist.ignore} restore={whitelist.restore} onShare={() => setSharing(true)} />
+        <Results
+          data={comparison}
+          partialSince={lists?.partialSince ?? null}
+          ignore={whitelist.ignore}
+          restore={whitelist.restore}
+          onShare={() => setSharing(true)}
+          onGuide={openGuide}
+        />
       ) : (
         <Landing
           status={status}
