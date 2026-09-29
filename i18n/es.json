@@ -1,0 +1,176 @@
+{
+  "trust": {
+    "openSource": "100% Open Source",
+    "inBrowser": "Procesado en tu navegador",
+    "noServers": "Cero servidores",
+    "noTheft": "Cero robos de cuenta",
+    "full": "100% Open Source. Procesado en tu navegador. Cero servidores. Cero robos de cuenta.",
+    "short": [
+      "Open Source",
+      "En tu navegador",
+      "0 servidores"
+    ]
+  },
+  "header": {
+    "homeLabel": "nosoytufan.com, inicio",
+    "howTo": "Cómo obtener mi archivo",
+    "github": "Código en GitHub",
+    "uploadAnother": "Subir otro archivo",
+    "language": "Idioma"
+  },
+  "landing": {
+    "eyebrow": "Sin contraseña. Sin login. Sin drama.",
+    "titleBefore": "¿Quién ",
+    "titleNo": "no",
+    "titleAfter": " te sigue de vuelta?",
+    "subtitle": "Suelta el .zip que te manda Instagram y en segundos ves quién se cree celebridad. Todo pasa en tu navegador: tu archivo nunca sale de tu dispositivo.",
+    "pills": [
+      "Sin backend",
+      ".zip directo, sin descomprimir",
+      "Gratis"
+    ],
+    "dropTitle": "Suelta aquí tu .zip de Instagram",
+    "dropTitleMobile": "Toca para elegir tu .zip",
+    "dropOr": "o",
+    "dropPick": "haz clic para elegirlo",
+    "dropFromDevice": "desde tu dispositivo",
+    "dropMeta": ".zip o .json · máx. 50 MB · nada se sube a ningún servidor",
+    "noFile": "¿Aún no tienes el archivo?",
+    "seeGuide": "Mira cómo pedirlo en 4 pasos →",
+    "steps": [
+      {
+        "title": "Pide tus datos a Instagram",
+        "body": "Solo seguidores y seguidos, en JSON."
+      },
+      {
+        "title": "Suelta el .zip aquí",
+        "body": "No hace falta descomprimirlo."
+      },
+      {
+        "title": "Mira quién se cree celebridad",
+        "body": "Y decide qué hacer con tu vida."
+      }
+    ],
+    "idleToastTitle": "¿Esperando a Instagram?",
+    "idleToastBody": "A veces el correo tarda 10 minutos. Ve por un café y vuelve.",
+    "closeToast": "Cerrar aviso",
+    "subtitleMobile": "Sube el .zip de Instagram. Se procesa en tu móvil; nunca sale de aquí.",
+    "dropMetaMobile": ".zip o .json · máx. 50 MB"
+  },
+  "states": {
+    "dragTitle": "Suéltalo. Sin miedo.",
+    "dragBody": "Lo leemos aquí mismo, no lo subimos a ningún lado.",
+    "processingTitle": "Contando traiciones…",
+    "processingUnzip": "Descomprimiendo el .zip",
+    "processingFound": "{file} encontrado",
+    "processingCompare": "Comparando following…",
+    "tooBigTitle": "Eso es tu vida entera, no tus seguidores.",
+    "tooBigBody": "El archivo pesa {size} MB. Asegúrate de pedir SOLO la información de seguidores (máx. 50 MB).",
+    "tooBigCta": "Ver cómo pedirlo bien",
+    "wrongFileTitle": "Oh no, el archivo no parece ser el correcto de Instagram.",
+    "wrongFileBody": "Si sí lo es, puede que Instagram haya cambiado su formato. Ya estamos en ello: vuelve pronto.",
+    "schemaChangedTitle": "Instagram actualizó su formato.",
+    "schemaChangedBody": "Necesitamos actualizar la app para leer tu archivo. Avísanos en GitHub.",
+    "tryAnother": "Probar otro",
+    "reportGithub": "Avisar en GitHub",
+    "progressLabel": "Progreso",
+    "htmlTitle": "Ese archivo está en HTML.",
+    "htmlBody": "Necesitamos el formato JSON. Pide tu información otra vez eligiendo JSON en el paso del formato.",
+    "htmlCta": "Ver el paso del formato",
+    "needOtherTitle": "Te falta la otra mitad.",
+    "needOtherBody": "Ya tenemos {have}. Ahora suelta {missing}.",
+    "kinds": {
+      "followers": "followers_1.json (quién te sigue)",
+      "following": "following.json (a quién sigues)"
+    },
+    "cancel": "Empezar de cero",
+    "pickOther": "Elegir el otro archivo"
+  },
+  "guide": {
+    "eyebrow": "Guía · 4 pasos · 2 minutos",
+    "title": "Cómo pedirle tu archivo a Instagram",
+    "close": "Cerrar guía",
+    "steps": [
+      {
+        "where": "Tu perfil",
+        "screen": "Menú",
+        "title": "Abre el Centro de cuentas",
+        "body": "En tu perfil toca el menú (≡) y entra a \"Centro de cuentas\"."
+      },
+      {
+        "where": "Centro de cuentas",
+        "screen": "Configuración de la cuenta",
+        "title": "Descargar tu información",
+        "body": "Ve a \"Tu información y permisos\" y luego a \"Descargar tu información\"."
+      },
+      {
+        "where": "Qué incluir",
+        "screen": "Seleccionar información",
+        "title": "Marca solo seguidores",
+        "body": "Elige \"Parte de tu información\" y activa únicamente \"Seguidores y seguidos\"."
+      },
+      {
+        "where": "Formato",
+        "screen": "Opciones del archivo",
+        "title": "JSON, desde el principio",
+        "body": "Formato JSON, intervalo \"Desde el principio\" y toca \"Crear archivos\". Te llegará un correo."
+      }
+    ],
+    "warning": "Importante: formato JSON (no HTML) y marca solo \"Seguidores y seguidos\". Si pides todo, el archivo pesará gigas con tus fotos y lo vamos a rechazar.",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "done": "Ya lo tengo, subir archivo →",
+    "stepLabel": "Paso {n}"
+  },
+  "results": {
+    "countLabel": "{count} personas no te siguen de vuelta",
+    "titleBefore": "personas se creen ",
+    "titleAccent": "celebridades",
+    "following": "Sigues",
+    "followers": "Te siguen",
+    "ignored": "Ignorados",
+    "share": "Compartir mi limpieza",
+    "shareShort": "Compartir",
+    "searchLabel": "Buscar usuario",
+    "searchPlaceholder": "Busca un @usuario…",
+    "tabPending": "No te siguen · {count}",
+    "tabIgnored": "Ignorados · {count}",
+    "viewProfile": "Ver perfil",
+    "ignore": "Ignorar a @{user}",
+    "ignoreTitle": "Ignorar (whitelist)",
+    "restore": "Restaurar",
+    "empty": "Nadie por aquí con ese nombre. Tal vez sí te sigue (milagro).",
+    "zero": "Todos te siguen de vuelta. Eres la excepción.",
+    "showing": "Mostrando {shown} de {total} · La whitelist se guarda solo en este navegador.",
+    "loadMore": "Cargar más",
+    "undoMsg": "@{user} se fue a la whitelist. Ya no lo verás.",
+    "undo": "Deshacer",
+    "back": "Volver al inicio",
+    "noIgnored": "Aún no has ignorado a nadie. El fantasma está esperando."
+  },
+  "share": {
+    "eyebrow": "Tu Wrapped",
+    "title": "Presume tu limpieza",
+    "close": "Cerrar",
+    "style": "Estilo",
+    "themes": {
+      "neon": "Neón",
+      "acid": "Ácido",
+      "night": "Noche"
+    },
+    "showNumber": "Mostrar el número",
+    "showNumberHint": "Nunca se incluyen nombres de usuario.",
+    "storyHeadline": "Acabo de limpiar mi Instagram en nosoytufan.com",
+    "storyCount": "personas se creían celebridades",
+    "storyFooter": "Sin contraseñas · 100% en el navegador",
+    "storyCta": "Pruébalo: nosoytufan.com",
+    "shareStories": "Compartir en Stories",
+    "download": "Descargar PNG",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "¡Enlace copiado!",
+    "meta": "La imagen se genera en tu dispositivo · 1080 × 1920 px",
+    "previewLabel": "Vista previa de la story",
+    "shareText": "Acabo de limpiar mi Instagram en nosoytufan.com",
+    "error": "No se pudo compartir. Prueba a descargar el PNG."
+  }
+}
