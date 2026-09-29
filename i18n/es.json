@@ -172,5 +172,30 @@
     "previewLabel": "Vista previa de la story",
     "shareText": "Acabo de limpiar mi Instagram en nosoytufan.com",
     "error": "No se pudo compartir. Prueba a descargar el PNG."
+  },
+  "about": {
+    "jump": "¿Cómo funciona? ↓",
+    "eyebrow": "Cómo funciona",
+    "title": "¿Por qué fiarte de una web que no conoces?",
+    "intro": "Porque no te pedimos nada. Tú descargas tus datos de Instagram y esta página los lee aquí mismo, en tu navegador.",
+    "items": [
+      {
+        "title": "Tu archivo no viaja",
+        "body": "Se lee en tu dispositivo. No hay ningún servidor al que subirlo, ni aunque quisiéramos."
+      },
+      {
+        "title": "Nunca te pedimos la contraseña",
+        "body": "Usas el archivo oficial que te da Instagram. Tu cuenta no corre ningún riesgo."
+      },
+      {
+        "title": "Código abierto",
+        "body": "Cualquiera puede revisar el código y comprobar que no hacemos trampa."
+      },
+      {
+        "title": "No guardamos nada",
+        "body": "Tus listas desaparecen al cerrar la pestaña. Solo recordamos a quién ignoras, y solo en este navegador."
+      }
+    ],
+    "github": "Ver el código en GitHub"
   }
 }

@@ -46,7 +46,7 @@ app/
   apple-icon.png        180×180 app icon
 components/
   TrustBanner  Header  LangToggle  Wordmark  LogoMark
-  Landing  Dropzone  UploadStates  IdleToast
+  Landing  Dropzone  UploadStates  IdleToast  HowItWorks
   Dialog  GuideModal
   Results  Odometer  Stats  SearchBar  ResultTabs  UserCard  UndoSnackbar
   ShareModal  StoryPreview
