@@ -16,5 +16,5 @@ export const storage = {
   },
 };
 
-export const GITHUB_URL = "https://github.com/nosoytufan/nosoytufan.com";
+export const GITHUB_URL = "https://github.com/ricardoerl/nosoytufan.com";
 export const SITE_URL = "https://nosoytufan.com";

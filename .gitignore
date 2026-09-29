@@ -3,3 +3,8 @@ node_modules/
 out/
 next-env.d.ts
 *.tsbuildinfo
+
+# Documentación interna de producto y diseño: no se publica.
+docs/
+design/
+CLAUDE.md

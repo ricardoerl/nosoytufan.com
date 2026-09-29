@@ -4,10 +4,6 @@ Aplicación web **100% client-side** que compara los seguidores y seguidos de un
 (`.zip` o `.json`) y lista las cuentas que no te siguen de vuelta. No hay backend: el archivo se lee y procesa
 íntegramente en el navegador y ningún dato del usuario sale del dispositivo.
 
-- Requisitos de producto: [`docs/PRD.md`](docs/PRD.md)
-- Especificación visual, tokens y componentes: [`docs/DESIGN.md`](docs/DESIGN.md)
-- Maquetas de referencia: [`design/screens/`](design/screens)
-
 ---
 
 ## Stack
@@ -47,14 +43,14 @@ app/
   page.tsx              máquina de estados de la app (landing ↔ resultados, modales)
   globals.css           tokens Tailwind (@theme), keyframes, foco visible, reduced-motion
   icon.svg              favicon
-  apple-icon.png        icono 180×180 generado desde design/assets/app-icon.svg
+  apple-icon.png        icono de app 180×180
 components/
   TrustBanner  Header  LangToggle  Wordmark  LogoMark
   Landing  Dropzone  UploadStates  IdleToast
   Dialog  GuideModal
   Results  Odometer  Stats  SearchBar  ResultTabs  UserCard  UndoSnackbar
   ShareModal  StoryPreview
-  icons/                iconos de línea (design/assets/icons.svg) como componentes
+  icons/                iconos de línea como componentes SVG
 lib/
   instagram/parse.ts    extracción de usernames (pura, sin DOM)
   instagram/compare.ts  Following − Followers − Whitelist
@@ -66,9 +62,7 @@ hooks/
   useLocale.tsx         LocaleProvider, detección de idioma, format()
   useWhitelist.ts       whitelist persistente con sincronización entre pestañas
   useIdle.ts            temporizador de inactividad
-i18n/                   diccionarios es.json / en.json (derivados de design/i18n)
-design/                 fuentes de diseño (maquetas, tokens, assets); no se compilan
-docs/                   PRD y especificación de diseño
+i18n/                   diccionarios es.json / en.json
 ```
 
 ## Arquitectura
@@ -229,8 +223,7 @@ actualiza dinámicamente. Se evitó `next-intl` porque su routing por locale no 
 - detección por contenido de `.json` sueltos;
 - comparación: deduplicado, orden, whitelist y la lista de ignorados.
 
-## Pendiente de configurar
+## Notas
 
-- `GITHUB_URL` en `lib/storage.ts` apunta a un repositorio provisional.
 - El build copia además el fuente de `zip.worker.ts` a `out/_next/static/media/` (artefacto de Turbopack); el
   worker que se ejecuta es el bundle compilado `turbopack-worker-*.js`.
