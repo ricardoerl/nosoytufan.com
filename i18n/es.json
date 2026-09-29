@@ -197,5 +197,38 @@
       }
     ],
     "github": "Ver el código en GitHub"
+  },
+  "risks": {
+    "eyebrow": "Transparencia",
+    "title": "Ojo con las apps que te piden la contraseña",
+    "intro": "Muchas apps de «quién te dejó de seguir» te piden entrar con tu cuenta de Instagram. Parece inofensivo, pero les das las llaves de tu cuenta. Esto es lo que puede pasar:",
+    "items": [
+      {
+        "title": "Pueden quedarse con tu cuenta",
+        "body": "Con tu usuario y contraseña pueden cambiarla y dejarte fuera."
+      },
+      {
+        "title": "Pueden actuar en tu nombre",
+        "body": "Seguir cuentas, dar likes o mandar mensajes de spam sin que te enteres."
+      },
+      {
+        "title": "Instagram puede bloquearte",
+        "body": "Los accesos de apps externas parecen actividad sospechosa y pueden limitar o suspender tu cuenta."
+      },
+      {
+        "title": "Pueden vender tus datos",
+        "body": "Tus seguidores, tus mensajes y tus hábitos pueden acabar en manos de desconocidos."
+      }
+    ],
+    "protectTitle": "Cómo protegerte",
+    "tips": [
+      "Escribe tu contraseña solo en la app o la web oficial de Instagram.",
+      "Revisa en la configuración de Instagram qué apps y sitios web tienen acceso, y quita los que no uses.",
+      "Activa la verificación en dos pasos.",
+      "Si ya le diste tu contraseña a otra app, cámbiala hoy."
+    ],
+    "oursTitle": "Nuestra parte:",
+    "ours": "no tenemos cuentas, ni servidor, ni forma de ver tus datos. Y no tienes que creernos: el código es público.",
+    "github": "Revisar el código"
   }
 }
