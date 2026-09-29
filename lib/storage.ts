@@ -1,4 +1,4 @@
-// localStorage puede lanzar (modo privado, cuota, cookies bloqueadas): todo va en try/catch.
+// localStorage can throw (private mode, quota, blocked cookies): every access is wrapped in try/catch.
 export const storage = {
   get(key: string): string | null {
     try {
@@ -11,7 +11,7 @@ export const storage = {
     try {
       window.localStorage.setItem(key, value);
     } catch {
-      /* sin persistencia */
+      /* no persistence */
     }
   },
 };

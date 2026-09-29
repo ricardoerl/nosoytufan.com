@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-/** `true` tras `ms` sin llamar a `reset`. Solo cuenta mientras `enabled`. */
+/** `true` after `ms` without calling `reset`. Only counts while `enabled`. */
 export function useIdle(ms: number, enabled: boolean) {
   const [idle, setIdle] = useState(false);
   const timer = useRef<number | undefined>(undefined);

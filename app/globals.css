@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tokens de design/tailwind-theme.ts trasladados a Tailwind v4. */
+/* Design tokens as a Tailwind v4 theme. */
 @theme {
   --color-ink: #0a0a0a;
   --color-surface: #121212;
@@ -16,7 +16,7 @@
   --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
   --font-mono: var(--font-space-mono), monospace;
 
-  /* Tailwind v4 sustituye el color por --tw-shadow-color: `shadow-brutal shadow-neon`. */
+  /* Tailwind v4 swaps the color for --tw-shadow-color: `shadow-brutal shadow-neon`. */
   --shadow-brutal-sm: 6px 6px 0 #f4f1ea;
   --shadow-brutal: 8px 8px 0 #f4f1ea;
   --shadow-brutal-lg: 14px 14px 0 #f4f1ea;

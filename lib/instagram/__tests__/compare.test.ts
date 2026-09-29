@@ -5,7 +5,7 @@ describe("compare", () => {
   const following = ["zeta", "ana", "beto", "carla", "ana"];
   const followers = ["ana", "dani"];
 
-  it("Following − Followers, ordenado y sin duplicados", () => {
+  it("Following − Followers, sorted and deduplicated", () => {
     const r = compare(following, followers, []);
     expect(r.notFollowingBack).toEqual(["beto", "carla", "zeta"]);
     expect(r.ignored).toEqual([]);
@@ -13,14 +13,14 @@ describe("compare", () => {
     expect(r.followersCount).toBe(2);
   });
 
-  it("excluye la whitelist y la devuelve aparte", () => {
+  it("excludes the whitelist and returns it separately", () => {
     const r = compare(following, followers, ["carla", "ana", "nadie"]);
     expect(r.notFollowingBack).toEqual(["beto", "zeta"]);
-    // "ana" sí te sigue, así que no cuenta como ignorada.
+    // "ana" does follow back, so it does not count as ignored.
     expect(r.ignored).toEqual(["carla"]);
   });
 
-  it("todos te siguen", () => {
+  it("everyone follows back", () => {
     expect(compare(["a"], ["a", "b"], []).notFollowingBack).toEqual([]);
   });
 });

@@ -12,7 +12,7 @@ interface Props {
   children: ReactNode;
 }
 
-/** Modal con foco atrapado, cierre con Esc/clic en el fondo y foco devuelto al cerrar. */
+/** Modal with a focus trap, closes on Esc/backdrop click and returns focus on close. */
 export function Dialog({ labelledBy, onClose, className, children }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const closeRef = useRef(onClose);

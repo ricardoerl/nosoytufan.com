@@ -8,7 +8,7 @@ export type ProgressStep = { step: "unzip" } | { step: "found"; file: string } |
 
 export type WorkerResponse = ({ type: "progress" } & ProgressStep) | { type: "result"; result: ParseResult };
 
-/** Lanza el worker, reenvía el progreso y resuelve con el resultado. */
+/** Spawns the worker, forwards progress and resolves with the result. */
 export function readExport(files: File[], onProgress: (p: ProgressStep) => void): Promise<ParseResult> {
   return new Promise((resolve) => {
     const worker = new Worker(new URL("./zip.worker.ts", import.meta.url));

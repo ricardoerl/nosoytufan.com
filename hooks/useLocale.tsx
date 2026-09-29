@@ -13,7 +13,7 @@ const KEY = "nstf:locale";
 
 type Vars = Record<string, string | number>;
 
-/** Interpolación simple de `{var}`. */
+/** Simple `{var}` interpolation. */
 export function format(template: string, vars?: Vars): string {
   if (!vars) return template;
   return template.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? String(vars[k]) : m));
@@ -29,14 +29,14 @@ interface LocaleCtx {
 const Ctx = createContext<LocaleCtx | null>(null);
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  // El HTML estático se genera en español; el idioma real se decide tras hidratar.
+  // The static HTML is rendered in Spanish; the actual locale is chosen after hydration.
   const [locale, setLocaleState] = useState<Locale>("es");
 
   useEffect(() => {
     const saved = storage.get(KEY);
     const next: Locale =
       saved === "es" || saved === "en" ? saved : navigator.language.toLowerCase().startsWith("es") ? "es" : "en";
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- detección tras hidratar, a propósito
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- detection after hydration, on purpose
     setLocaleState(next);
   }, []);
 

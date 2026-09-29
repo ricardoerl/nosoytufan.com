@@ -6,7 +6,7 @@ import { ExternalIcon, GhostIcon } from "./icons";
 
 const AVATAR_BG = ["bg-acid", "bg-neon", "bg-chalk"];
 
-// FNV-1a: color estable por username y bien repartido entre los tres tonos.
+// FNV-1a: stable color per username, evenly spread across the three tones.
 function hash(s: string): number {
   let h = 0x811c9dc5;
   for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193);

@@ -36,12 +36,12 @@ export function Results({ data, ignore, restore, onShare }: Props) {
   const visible = filtered.slice(0, limit);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- la paginación se reinicia al cambiar filtro o tab
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- pagination resets when the filter or tab changes
     setLimit(PAGE);
   }, [q, tab]);
 
-  // Usuarios con la animación de salida en curso. Se confirma en `animationend` o, si la
-  // pestaña está oculta y no se anima, con un timeout de respaldo.
+  // Users whose exit animation is running. Confirmed on `animationend` or, if the tab is
+  // hidden and nothing animates, by a fallback timeout.
   const pendingLeave = useRef(new Set<string>());
 
   const onLeft = useCallback(

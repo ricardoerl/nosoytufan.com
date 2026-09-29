@@ -1,4 +1,4 @@
-// Corazón roto pixelado (grid 14×12). Mitad izquierda baja 1px, derecha se desplaza 1px.
+// Pixelated broken heart (14×12 grid). Left half drops 1px, right half shifts 1px right.
 export const HEART_LEFT =
   "M2 0h3v1h-3zM1 1h5v1h-5zM0 2h6v1h-6zM0 3h5v1h-5zM0 4h6v1h-6zM1 5h6v1h-6zM2 6h4v1h-4zM3 7h2v1h-2zM4 8h2v1h-2zM5 9h1v1h-1zM6 10h1v1h-1z";
 export const HEART_RIGHT =

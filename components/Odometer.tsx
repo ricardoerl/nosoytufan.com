@@ -4,13 +4,13 @@ import { useEffect, useState } from "react";
 
 const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
-/** Contador con dígitos que ruedan desde 0. Mínimo 3 dígitos. */
+/** Counter whose digits roll up from 0. At least 3 digits. */
 export function Odometer({ value, label }: { value: number; label: string }) {
   const target = String(Math.max(0, value)).padStart(3, "0");
   const [shown, setShown] = useState(() => "0".repeat(target.length));
 
   useEffect(() => {
-    // Un frame en 0 para que la transición arranque desde abajo en el primer render.
+    // One frame at 0 so the transition starts from the bottom on first render.
     const id = requestAnimationFrame(() => setShown(target));
     return () => cancelAnimationFrame(id);
   }, [target]);

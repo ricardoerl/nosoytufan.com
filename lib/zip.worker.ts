@@ -24,7 +24,7 @@ ctx.onmessage = async (event: MessageEvent<WorkerRequest>) => {
         }
         const names = Object.keys(zip.files).filter((n) => !zip.files[n]!.dir);
         for (const name of names) {
-          // Solo leemos el contenido de los candidatos; del resto basta el nombre.
+          // Only candidate entries are decompressed; for the rest the name is enough.
           const text = candidateKind(name) ? await zip.files[name]!.async("string") : "";
           entries.push({ name, text });
         }

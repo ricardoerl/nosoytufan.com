@@ -1,5 +1,5 @@
-// Dibuja la story (1080×1920) en Canvas 2D. Las medidas salen de la maqueta Share.dc.html
-// (405×720) escaladas por 1080/405. Nunca incluye usernames.
+// Draws the story (1080×1920) with Canvas 2D. Measurements come from the 405×720 share mockup
+// scaled by 1080/405. Never includes usernames.
 
 import { HEART_LEFT, HEART_RIGHT } from "@/components/LogoMark";
 
@@ -37,7 +37,7 @@ async function loadFonts(fonts: string[]) {
     await Promise.all(fonts.map((f) => document.fonts.load(f)));
     await document.fonts.ready;
   } catch {
-    /* si falla, se dibuja con la fuente de reserva */
+    /* on failure, draw with the fallback font */
   }
 }
 
@@ -104,7 +104,7 @@ export async function renderStory(canvas: HTMLCanvasElement, o: StoryOptions): P
   ctx.fillRect(0, 0, W, H);
   ctx.textBaseline = "top";
 
-  // Fila superior.
+  // Top row.
   ctx.fillStyle = t.fg;
   ctx.font = `700 ${topSize}px ${mono}`;
   setSpacing(ctx, 0);
@@ -115,16 +115,16 @@ export async function renderStory(canvas: HTMLCanvasElement, o: StoryOptions): P
   ctx.textAlign = "left";
   const topH = topSize * 1.25;
 
-  // Pie.
+  // Footer.
   const footLH = footSize * 1.5;
   const footH = footLH * 2;
 
-  // Bloque central: corazón + titular + caja con el número.
+  // Middle block: heart + headline + count box.
   const cell = Math.floor((170 * K) / 14);
   const heartH = cell * 12;
   const gap = 26 * K;
   const maxW = W - PAD_X * 2;
-  // Reduce el titular hasta que la palabra más larga (p. ej. "nosoytufan.com") quepa en una línea.
+  // Shrink the headline until its longest word (e.g. "nosoytufan.com") fits on one line.
   for (;;) {
     ctx.font = `800 ${headlineSize}px ${display}`;
     setSpacing(ctx, -0.035 * headlineSize);

@@ -1,229 +1,230 @@
 # nosoytufan.com
 
-Aplicación web **100% client-side** que compara los seguidores y seguidos de un export de datos de Instagram
-(`.zip` o `.json`) y lista las cuentas que no te siguen de vuelta. No hay backend: el archivo se lee y procesa
-íntegramente en el navegador y ningún dato del usuario sale del dispositivo.
+A **100% client-side** web app that compares the followers and following lists from an Instagram data export
+(`.zip` or `.json`) and shows the accounts that don't follow you back. There is no backend: the file is read and
+processed entirely in the browser, and no user data ever leaves the device.
 
 ---
 
 ## Stack
 
-| Capa | Tecnología |
+| Layer | Technology |
 |---|---|
-| Framework | Next.js 16 (App Router), `output: "export"` (sitio estático, sin API routes, server actions ni middleware) |
+| Framework | Next.js 16 (App Router), `output: "export"` (static site: no API routes, server actions or middleware) |
 | UI | React 19 + TypeScript 6 (`strict`, `noUncheckedIndexedAccess`) |
-| Estilos | Tailwind CSS 4 (tokens en `@theme` dentro de `app/globals.css`); solo tema oscuro (`.dark` en `<html>`) |
-| Descompresión | `jszip` ejecutado en un Web Worker dedicado |
-| Fuentes | `next/font/google` (Syne, Space Grotesk, Space Mono), autohospedadas en build y expuestas como variables CSS |
-| i18n | Provider React propio sobre diccionarios JSON (`es`, `en`) con interpolación `{var}` |
-| Imagen para compartir | Canvas 2D (1080×1920) + Web Share API con fallback a descarga |
-| Tests | Vitest (entorno `node`) |
+| Styling | Tailwind CSS 4 (tokens in `@theme` inside `app/globals.css`); dark theme only (`.dark` on `<html>`) |
+| Decompression | `jszip` running in a dedicated Web Worker |
+| Fonts | `next/font/google` (Syne, Space Grotesk, Space Mono), self-hosted at build time and exposed as CSS variables |
+| i18n | Custom React provider over JSON dictionaries (`es`, `en`) with `{var}` interpolation |
+| Share image | Canvas 2D (1080×1920) + Web Share API, with download fallback |
+| Tests | Vitest (`node` environment) |
 | Lint | ESLint 9 (flat config) + `eslint-config-next` (core-web-vitals + typescript) |
 
-## Puesta en marcha
+## Getting started
 
-Requisitos: Node.js ≥ 20.
+Requirements: Node.js ≥ 20.
 
 ```bash
 npm install
-npm run dev        # servidor de desarrollo en http://localhost:3000
-npm test           # Vitest: parser y motor de comparación
+npm run dev        # dev server at http://localhost:3000
+npm test           # Vitest: parser and comparison engine
 npm run lint       # ESLint
-npm run build      # export estático en ./out
+npm run build      # static export to ./out
 ```
 
-`out/` es un sitio estático autocontenido: se puede servir desde cualquier hosting estático
-(Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3…). `trailingSlash: true` genera `index.html` por ruta.
+`out/` is a self-contained static site that can be served from any static host (Netlify, Vercel,
+Cloudflare Pages, GitHub Pages, S3…). `trailingSlash: true` emits one `index.html` per route.
 
-## Estructura
+## Project layout
 
 ```
 app/
-  layout.tsx            fuentes, metadata, CSP (meta), LocaleProvider
-  page.tsx              máquina de estados de la app (landing ↔ resultados, modales)
-  globals.css           tokens Tailwind (@theme), keyframes, foco visible, reduced-motion
+  layout.tsx            fonts, metadata, CSP (meta tag), LocaleProvider
+  page.tsx              app state machine (landing ↔ results, modals)
+  globals.css           Tailwind tokens (@theme), keyframes, visible focus, reduced motion
   icon.svg              favicon
-  apple-icon.png        icono de app 180×180
+  apple-icon.png        180×180 app icon
 components/
   TrustBanner  Header  LangToggle  Wordmark  LogoMark
   Landing  Dropzone  UploadStates  IdleToast
   Dialog  GuideModal
   Results  Odometer  Stats  SearchBar  ResultTabs  UserCard  UndoSnackbar
   ShareModal  StoryPreview
-  icons/                iconos de línea como componentes SVG
+  icons/                line icons as SVG components
 lib/
-  instagram/parse.ts    extracción de usernames (pura, sin DOM)
+  instagram/parse.ts    username extraction (pure, no DOM)
   instagram/compare.ts  Following − Followers − Whitelist
-  zip.worker.ts         Web Worker: lectura del zip / json y parseo
-  zip-protocol.ts       tipos de mensajes worker ↔ main thread y helper readExport()
-  story/render.ts       render de la story en Canvas 2D
-  storage.ts            wrapper de localStorage tolerante a fallos, constantes
+  zip.worker.ts         Web Worker: reads the zip / json and parses it
+  zip-protocol.ts       worker ↔ main thread message types and the readExport() helper
+  story/render.ts       story rendering with Canvas 2D
+  storage.ts            fault-tolerant localStorage wrapper, constants
 hooks/
-  useLocale.tsx         LocaleProvider, detección de idioma, format()
-  useWhitelist.ts       whitelist persistente con sincronización entre pestañas
-  useIdle.ts            temporizador de inactividad
-i18n/                   diccionarios es.json / en.json
+  useLocale.tsx         LocaleProvider, locale detection, format()
+  useWhitelist.ts       persistent whitelist with cross-tab sync
+  useIdle.ts            inactivity timer
+i18n/                   es.json / en.json dictionaries
 ```
 
-## Arquitectura
+## Architecture
 
-### Flujo de datos
+### Data flow
 
 ```
 <input type=file> / drop
         │
         ▼
- page.tsx::handleFiles ── size > 50 MB ──► estado "too-big" (no se lee el archivo)
+ page.tsx::handleFiles ── size > 50 MB ──► "too-big" state (the file is never read)
         │
         ▼
  readExport(files) ──postMessage(File[])──► zip.worker.ts
-        ▲                                       │ JSZip.loadAsync (solo .zip)
-        │  {type:"progress", step}              │ lee SOLO las entradas candidatas
+        ▲                                       │ JSZip.loadAsync (.zip only)
+        │  {type:"progress", step}              │ reads ONLY candidate entries
         │◄──────────────────────────────────────┤ parseZipEntries / parseLooseFiles
         │  {type:"result", ParseResult}         │
         ◄───────────────────────────────────────┘
         │
         ├─ error ──► "not-instagram" | "schema-changed"
-        ├─ solo una lista (.json suelto) ──► "need-other" (se guarda la mitad y se espera la otra)
+        ├─ only one list (loose .json) ──► "need-other" (keep this half, wait for the other)
         └─ ok ──► compare(following, followers, whitelist) ──► <Results>
 ```
 
-Los `File` se transfieren al worker por structured clone (sin copiar el contenido en el main thread).
-La descompresión y el `JSON.parse` de exports grandes no bloquean la UI. El worker se crea por
-procesamiento y se termina al recibir el resultado.
+`File` objects are handed to the worker via structured clone (their contents are not copied on the main
+thread), so decompressing and `JSON.parse`-ing large exports never blocks the UI. A worker is spawned per run
+and terminated once it returns a result.
 
-### Estados de la subida (`UploadStatus`)
+### Upload states (`UploadStatus`)
 
-`idle` → `processing` → resultado | `too-big` | `not-instagram` (`html?: boolean`) | `schema-changed` | `need-other`.
-El estado `processing` tiene una duración mínima de 700 ms para que el feedback sea perceptible.
-Los errores se anuncian con `role="alert"` y el progreso con `role="status"` + `role="progressbar"`.
+`idle` → `processing` → result | `too-big` | `not-instagram` (`html?: boolean`) | `schema-changed` | `need-other`.
+`processing` lasts at least 700 ms so the feedback is perceptible. Errors are announced with `role="alert"`;
+progress uses `role="status"` + `role="progressbar"`.
 
-### Parser difuso (`lib/instagram/parse.ts`)
+### Fuzzy parser (`lib/instagram/parse.ts`)
 
-Meta ha cambiado el formato del export varias veces, así que el parser no depende de rutas fijas.
+Meta has changed the export format several times, so the parser does not rely on fixed paths.
 
-**Selección de candidatos** (entradas del zip): basename en minúsculas que contenga `followers` o `following`,
-termine en `.json` y **no** contenga `pending`, `recent`, `hashtag`, `close_friends` ni `restricted`.
-Varios `followers_N.json` se fusionan. Para `.json` sueltos el tipo se detecta por contenido, con el nombre
-solo como pista, así que funciona aunque el archivo se haya renombrado.
+**Candidate selection** (zip entries): a lowercase basename that contains `followers` or `following`, ends in
+`.json` and does **not** contain `pending`, `recent`, `hashtag`, `close_friends` or `restricted`. Multiple
+`followers_N.json` files are merged. For loose `.json` files the kind is detected from content, with the name
+only as a hint, so renamed files still work.
 
-**Formatos soportados:**
+**Supported formats:**
 
-| Lista | Estructura |
+| List | Shape |
 |---|---|
-| followers | array raíz `[{ string_list_data: [{ href, value, timestamp }] }]` |
-| followers | objeto con una clave `relationships_followers*` |
+| followers | root array `[{ string_list_data: [{ href, value, timestamp }] }]` |
+| followers | object with a `relationships_followers*` key |
 | following | `{ relationships_following: [...] }` |
 
-**Resolución del username**, por prioridad: `string_list_data[0].value` → `title` → último segmento del
-path de `href` (`instagram.com/_u/x` o `instagram.com/x`, solo si el host es `instagram.com`).
+**Username resolution**, in priority order: `string_list_data[0].value` → `title` → last path segment of
+`href` (`instagram.com/_u/x` or `instagram.com/x`, only when the host is `instagram.com`).
 
-**Normalización y sanitización:** `trim`, minúsculas, quitar `@` inicial y validar con `/^[a-z0-9._]{1,30}$/`.
-Lo que no pasa la validación se descarta. Nunca se usa `dangerouslySetInnerHTML`; React escapa todo el texto.
+**Normalization and sanitization:** `trim`, lowercase, strip a leading `@`, then validate against
+`/^[a-z0-9._]{1,30}$/`. Anything that fails is dropped. `dangerouslySetInnerHTML` is never used; React escapes
+all text.
 
-**Errores tipados:**
+**Typed errors:**
 
-| Código | Condición |
+| Code | Condition |
 |---|---|
-| `not-instagram` | zip corrupto, sin candidatos o candidatos que no son JSON válido. `html: true` si el export se pidió en HTML (`followers_1.html`) |
-| `schema-changed` | hay candidatos con JSON válido pero ninguno encaja en los formatos conocidos |
+| `not-instagram` | corrupt zip, no candidates, or candidates that are not valid JSON. `html: true` when the export was requested as HTML (`followers_1.html`) |
+| `schema-changed` | candidates contain valid JSON but none matches a known format |
 
-Un array vacío (`relationships_following: []`) se considera formato válido (lista vacía) y no dispara
-`schema-changed`. Todo el parseo va envuelto en `try/catch`.
+An empty array (`relationships_following: []`) is a valid format (an empty list) and does not trigger
+`schema-changed`. All parsing is wrapped in `try/catch`.
 
-### Motor de comparación (`lib/instagram/compare.ts`)
+### Comparison engine (`lib/instagram/compare.ts`)
 
 ```ts
 compare(following, followers, whitelist) → {
-  notFollowingBack,   // following − followers − whitelist, orden alfabético
-  ignored,            // (following − followers) ∩ whitelist, orden alfabético
-  followingCount,     // tamaño de following deduplicado
+  notFollowingBack,   // following − followers − whitelist, sorted alphabetically
+  ignored,            // (following − followers) ∩ whitelist, sorted alphabetically
+  followingCount,     // size of the deduplicated following list
   followersCount,
 }
 ```
 
-Operaciones sobre `Set`: O(n + m). Se recalcula con `useMemo` cuando cambia la whitelist.
+`Set`-based, O(n + m). Recomputed with `useMemo` whenever the whitelist changes.
 
-### Persistencia (`localStorage`)
+### Persistence (`localStorage`)
 
-| Clave | Contenido |
+| Key | Value |
 |---|---|
-| `nstf:whitelist` | `string[]` en JSON; se valida y normaliza al leer |
+| `nstf:whitelist` | JSON `string[]`; validated and normalized on read |
 | `nstf:locale` | `"es"` \| `"en"` |
-| `nstf:idleToastDismissed` | `"1"` cuando se cierra el aviso de inactividad |
-| `nstf:guideSeen` | `"1"` tras abrir la guía |
+| `nstf:idleToastDismissed` | `"1"` once the inactivity toast is dismissed |
+| `nstf:guideSeen` | `"1"` after the guide is opened |
 
-Todo acceso pasa por `lib/storage.ts`, que captura las excepciones (modo privado, cuota, cookies bloqueadas):
-la app funciona sin persistencia. `useWhitelist` escucha el evento `storage` para sincronizar varias pestañas.
-Solo se persisten preferencias y la whitelist, nunca las listas de seguidores.
+Every access goes through `lib/storage.ts`, which swallows exceptions (private mode, quota, blocked cookies),
+so the app works without persistence. `useWhitelist` listens to the `storage` event to stay in sync across
+tabs. Only preferences and the whitelist are persisted, never the follower lists.
 
-### Whitelist e "Ignorar"
+### Whitelist and "Ignore"
 
-`useWhitelist()` expone `ignore(u)`, `restore(u)`, `has(u)` y `list`. Al ignorar, la tarjeta ejecuta
-`animate-ghost-out` (220 ms) y la cuenta pasa a la whitelist en `animationend`, con un `setTimeout` de 400 ms
-como respaldo por si la pestaña está oculta y la animación no llega a correr. "Deshacer" equivale a
-`restore()` y el snackbar se oculta a los 5 s.
+`useWhitelist()` exposes `ignore(u)`, `restore(u)`, `has(u)` and `list`. On ignore, the card plays
+`animate-ghost-out` (220 ms) and the account is whitelisted on `animationend`, with a 400 ms `setTimeout`
+fallback in case the tab is hidden and the animation never runs. "Undo" maps to `restore()`; the snackbar
+hides after 5 s.
 
 ### i18n
 
-`LocaleProvider` carga `i18n/es.json` e `i18n/en.json` de forma estática (tipados con `typeof es`, así que
-una clave inexistente es un error de compilación). El HTML exportado se genera en `es`; tras la hidratación se
-elige el idioma desde `localStorage` o `navigator.language` para no provocar un mismatch. `<html lang>` se
-actualiza dinámicamente. Se evitó `next-intl` porque su routing por locale no encaja con `output: "export"`.
+`LocaleProvider` statically imports `i18n/es.json` and `i18n/en.json` (typed as `typeof es`, so a missing key
+is a compile error). The exported HTML is rendered in `es`; after hydration the locale is picked from
+`localStorage` or `navigator.language`, which avoids a hydration mismatch. `<html lang>` is updated at runtime.
+`next-intl` was avoided because its per-locale routing does not fit `output: "export"`.
 
-### Story para compartir (`lib/story/render.ts`)
+### Share story (`lib/story/render.ts`)
 
-- Canvas 2D a 1080×1920. Las medidas salen de la maqueta (405×720) escaladas ×2,667.
-- Antes de dibujar espera a `document.fonts.load()` y `document.fonts.ready`. Las familias se leen de las
-  variables CSS de `next/font` para usar exactamente las fuentes autohospedadas.
-- El corazón pixelado se dibuja con `Path2D` a partir de los mismos paths del SVG del logo.
-- El titular se reduce automáticamente hasta que la palabra más larga cabe en el ancho útil.
-- La vista previa es el propio PNG generado (`<img src=blob:>`): lo que se ve es lo que se exporta.
-- Compartir: `navigator.canShare({ files })` → `navigator.share()`. Si no está disponible o falla, se descarga el PNG.
-  La imagen nunca incluye usernames.
+- Canvas 2D at 1080×1920. Measurements come from the 405×720 mockup scaled by ×2.667.
+- Before drawing it awaits `document.fonts.load()` and `document.fonts.ready`. Font families are read from the
+  `next/font` CSS variables so the exact self-hosted fonts are used.
+- The pixelated heart is drawn with `Path2D` from the same paths as the SVG logo.
+- The headline shrinks automatically until its longest word fits the usable width.
+- The preview is the generated PNG itself (`<img src=blob:>`): what you see is what gets exported.
+- Sharing: `navigator.canShare({ files })` → `navigator.share()`. If unavailable or failing, the PNG is
+  downloaded. The image never includes usernames.
 
-### Rendimiento
+### Performance
 
-- Parseo en Web Worker. Del zip solo se descomprimen las entradas candidatas; del resto basta el nombre.
-- Paginación de la lista en lotes de 60 ("Cargar más"); la paginación se reinicia al cambiar búsqueda o pestaña.
-- Búsqueda con `useDeferredValue` y `UserCard` memoizado para listas de miles de cuentas.
+- Parsing runs in a Web Worker. Only candidate zip entries are decompressed; for the rest the name is enough.
+- The list is paginated in batches of 60 ("Load more"); pagination resets when the search or tab changes.
+- Search uses `useDeferredValue`, and `UserCard` is memoized for lists with thousands of accounts.
 
-## Seguridad y privacidad
+## Security and privacy
 
-- **Sin red en runtime:** no hay analytics, llamadas a APIs ni recursos de terceros. Las fuentes se sirven
-  desde el propio dominio.
-- **CSP** vía `<meta http-equiv>` (solo en producción), porque un export estático no puede fijar cabeceras:
+- **No runtime network access:** no analytics, API calls or third-party resources. Fonts are served from the
+  site's own origin.
+- **CSP** via `<meta http-equiv>` (production only), since a static export cannot set headers:
   `default-src 'self'; connect-src 'self'; worker-src 'self' blob:; img-src 'self' data: blob:; object-src 'none'; form-action 'none'; …`.
-  `script-src` incluye `'unsafe-inline'` porque el runtime de Next emite scripts inline de hidratación y sin
-  servidor no hay nonces. Si el hosting permite cabeceras, conviene mover la CSP ahí y endurecerla.
-- **Límite de 50 MB** comprobado con `file.size` antes de leer nada.
-- **Sanitización** por lista blanca de caracteres; los enlaces a perfiles usan `encodeURIComponent` y todos los
-  enlaces externos llevan `target="_blank" rel="noopener noreferrer"`.
+  `script-src` includes `'unsafe-inline'` because the Next runtime emits inline hydration scripts and, without
+  a server, there are no nonces. If the host supports headers, move the CSP there and tighten it.
+- **50 MB limit** checked via `file.size` before anything is read.
+- **Sanitization** through a character allowlist; profile links use `encodeURIComponent`, and every external
+  link has `target="_blank" rel="noopener noreferrer"`.
 
-## Accesibilidad
+## Accessibility
 
-- Diálogos (`components/Dialog.tsx`) con `role="dialog"`, `aria-modal`, foco atrapado, cierre con Esc y clic en
-  el fondo, y foco devuelto al elemento que los abrió.
-- Regiones `aria-live` para el procesamiento, los errores y el recuento de resultados.
-- Tabs con `role="tablist"` / `tab` / `tabpanel` y navegación con flechas.
-- Foco visible global: `outline: 3px solid #BADA55; outline-offset: 3px`. El dropzone refleja el foco de su
-  `<input type="file">` oculto (`peer-focus-visible`).
-- Objetivos táctiles de al menos 44 px. `prefers-reduced-motion` desactiva animaciones y transiciones.
-- El odómetro expone el valor real con `role="img"` + `aria-label`.
+- Dialogs (`components/Dialog.tsx`) use `role="dialog"` and `aria-modal`, trap focus, close on Esc and backdrop
+  click, and return focus to the element that opened them.
+- `aria-live` regions for processing, errors and the result count.
+- Tabs with `role="tablist"` / `tab` / `tabpanel` and arrow-key navigation.
+- Global visible focus: `outline: 3px solid #BADA55; outline-offset: 3px`. The dropzone mirrors the focus of
+  its hidden `<input type="file">` (`peer-focus-visible`).
+- Touch targets of at least 44 px. `prefers-reduced-motion` disables animations and transitions.
+- The odometer exposes the real value through `role="img"` + `aria-label`.
 
 ## Tests
 
-`lib/instagram/__tests__/` cubre con fixtures JSON inventados (sin datos reales):
+`lib/instagram/__tests__/` covers, with made-up JSON fixtures (no real data):
 
-- normalización y validación de usernames (incluidos intentos de inyección);
-- selección y exclusión de candidatos por nombre;
-- cada variante de formato: array raíz, `relationships_followers`, `value`, `title` sin `value` y solo `href`;
-- fusión de varios `followers_N.json`;
-- errores `not-instagram` (sin candidatos, HTML, JSON corrupto) y `schema-changed`;
-- detección por contenido de `.json` sueltos;
-- comparación: deduplicado, orden, whitelist y la lista de ignorados.
+- username normalization and validation (including injection attempts);
+- candidate selection and exclusion by file name;
+- every format variant: root array, `relationships_followers`, `value`, `title` without `value`, and `href` only;
+- merging multiple `followers_N.json` files;
+- `not-instagram` (no candidates, HTML, corrupt JSON) and `schema-changed` errors;
+- content-based detection of loose `.json` files;
+- comparison: deduplication, ordering, whitelist and the ignored list.
 
-## Notas
+## Notes
 
-- El build copia además el fuente de `zip.worker.ts` a `out/_next/static/media/` (artefacto de Turbopack); el
-  worker que se ejecuta es el bundle compilado `turbopack-worker-*.js`.
+- The build also copies the `zip.worker.ts` source into `out/_next/static/media/` (a Turbopack artifact); the
+  worker that actually runs is the compiled `turbopack-worker-*.js` bundle.

@@ -21,8 +21,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: "#0A0A0A", colorScheme: "dark" };
 
-// Sitio estático: la CSP va como meta. 'unsafe-inline' en script-src lo exige el runtime de Next
-// (scripts inline de hidratación) sin servidor que genere nonces.
+// Static site: the CSP ships as a meta tag. 'unsafe-inline' in script-src is required by the Next
+// runtime (inline hydration scripts) since there is no server to generate nonces.
 const CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",

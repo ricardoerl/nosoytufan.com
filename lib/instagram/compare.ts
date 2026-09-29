@@ -1,7 +1,7 @@
 export interface Comparison {
-  /** Following − Followers − Whitelist, en orden alfabético. */
+  /** Following − Followers − Whitelist, sorted alphabetically. */
   notFollowingBack: string[];
-  /** Following − Followers que están en la whitelist, en orden alfabético. */
+  /** Following − Followers that are whitelisted, sorted alphabetically. */
   ignored: string[];
   followingCount: number;
   followersCount: number;

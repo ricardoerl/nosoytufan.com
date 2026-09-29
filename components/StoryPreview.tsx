@@ -9,7 +9,7 @@ interface Props {
   onBlob: (blob: Blob | null) => void;
 }
 
-/** Pinta la story en un canvas oculto y muestra el PNG resultante: la vista previa es la imagen real. */
+/** Renders the story on a hidden canvas and shows the resulting PNG: the preview is the real image. */
 export function StoryPreview({ options, label, onBlob }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [url, setUrl] = useState<string | null>(null);
@@ -40,7 +40,7 @@ export function StoryPreview({ options, label, onBlob }: Props) {
     <div className="aspect-[9/16] w-[220px] border-3 border-chalk bg-ink shadow-[10px_10px_0_#F4F1EA] md:w-[405px]">
       <canvas ref={canvasRef} className="hidden" aria-hidden="true" />
       {url && (
-        // eslint-disable-next-line @next/next/no-img-element -- blob local generado en el cliente
+        // eslint-disable-next-line @next/next/no-img-element -- local blob generated on the client
         <img src={url} alt={label} className="block size-full" />
       )}
     </div>

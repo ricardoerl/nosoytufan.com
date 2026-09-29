@@ -36,7 +36,7 @@ export default function Home() {
   const whitelist = useWhitelist();
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage solo existe tras hidratar
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage only exists after hydration
     setToastDismissed(storage.get("nstf:idleToastDismissed") === "1");
   }, []);
 
@@ -82,7 +82,7 @@ export default function Home() {
         );
         return;
       }
-      // Con .json sueltos, se combina con la mitad que ya teníamos.
+      // With loose .json files, merge with the half we already had.
       const merged: HalfLists = {
         followers: result.lists.followers ?? partial.current?.followers ?? null,
         following: result.lists.following ?? partial.current?.following ?? null,

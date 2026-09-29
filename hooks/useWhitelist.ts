@@ -21,7 +21,7 @@ export function useWhitelist() {
   const [list, setList] = useState<string[]>([]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage solo existe tras hidratar
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage only exists after hydration
     setList(read());
     const onStorage = (e: StorageEvent) => {
       if (e.key === KEY || e.key === null) setList(read());

@@ -1,11 +1,11 @@
-// Extracción de usernames de un export de Instagram. Puro y sin dependencias del DOM.
+// Username extraction from an Instagram data export. Pure, no DOM dependencies.
 
 export type ListKind = "followers" | "following";
 
 export type ParseErrorCode = "not-instagram" | "schema-changed";
 
 export interface FileEntry {
-  /** Ruta dentro del zip o nombre del archivo suelto. */
+  /** Path inside the zip, or the loose file name. */
   name: string;
   text: string;
 }
@@ -13,7 +13,7 @@ export interface FileEntry {
 export interface ParsedLists {
   followers: string[] | null;
   following: string[] | null;
-  /** Basenames de los archivos que sí dieron usernames. */
+  /** Basenames of the files that yielded usernames. */
   files: string[];
 }
 
@@ -29,7 +29,7 @@ export function basename(path: string): string {
   return (parts[parts.length - 1] ?? "").toLowerCase();
 }
 
-/** Normaliza y valida. Devuelve null si no es un username válido. */
+/** Normalizes and validates. Returns null if it is not a valid username. */
 export function normalizeUsername(raw: unknown): string | null {
   if (typeof raw !== "string") return null;
   const u = raw.trim().toLowerCase().replace(/^@+/, "");
@@ -48,7 +48,7 @@ function usernameFromHref(href: unknown): string | null {
   }
 }
 
-/** Kind que sugiere el nombre del archivo, o null si no es candidato. */
+/** Kind suggested by the file name, or null if it is not a candidate. */
 export function candidateKind(path: string): ListKind | null {
   const name = basename(path);
   if (!name.endsWith(".json")) return null;
@@ -88,8 +88,8 @@ function looksLikeItem(item: unknown): boolean {
 }
 
 /**
- * Extrae usernames de un array de entradas. Devuelve null si el array no tiene el formato
- * conocido (lo que permite distinguir "lista vacía" de "schema cambiado").
+ * Extracts usernames from an array of entries. Returns null if the array is not in a known
+ * format (which tells "empty list" apart from "schema changed").
  */
 function extractFromArray(arr: unknown[]): string[] | null {
   if (arr.length === 0) return [];
@@ -102,7 +102,7 @@ function extractFromArray(arr: unknown[]): string[] | null {
   return out.length > 0 ? out : null;
 }
 
-/** Busca la lista dentro de un objeto: prioriza las claves relationships_{kind}. */
+/** Finds the list inside an object, preferring relationships_{kind} keys. */
 function findArray(obj: Record<string, unknown>, kind: ListKind | null): { arr: unknown[]; kind: ListKind | null } | null {
   const keys = Object.keys(obj);
   const pick = (k: ListKind) => keys.find((key) => key.startsWith(`relationships_${k}`) && Array.isArray(obj[key]));
@@ -120,12 +120,12 @@ export interface ExtractedFile {
 }
 
 /**
- * Interpreta un JSON ya parseado. `hint` es el kind que sugiere el nombre del archivo.
- * Devuelve null si no reconoce el formato.
+ * Interprets already-parsed JSON. `hint` is the kind suggested by the file name.
+ * Returns null if the format is not recognized.
  */
 export function extractFromJson(data: unknown, hint: ListKind | null): ExtractedFile | null {
   if (Array.isArray(data)) {
-    // El array raíz es el formato de followers.
+    // A root array is the followers format.
     const usernames = extractFromArray(data);
     return usernames ? { kind: hint ?? "followers", usernames } : null;
   }
@@ -147,8 +147,8 @@ function safeJson(text: string): { ok: true; value: unknown } | { ok: false } {
 }
 
 /**
- * Procesa las entradas de un zip. Los candidatos se eligen por nombre; si hay varios
- * `followers_N.json`, se unen.
+ * Processes zip entries. Candidates are picked by name; multiple `followers_N.json`
+ * files are merged.
  */
 export function parseZipEntries(entries: FileEntry[]): ParseResult {
   try {
@@ -163,8 +163,8 @@ export function parseZipEntries(entries: FileEntry[]): ParseResult {
 }
 
 /**
- * Procesa archivos .json sueltos. El kind se detecta por contenido (y por nombre como pista),
- * así que funciona aunque el archivo se haya renombrado.
+ * Processes loose .json files. The kind is detected from content (with the name as a hint),
+ * so it works even if the file was renamed.
  */
 export function parseLooseFiles(entries: FileEntry[]): ParseResult {
   try {

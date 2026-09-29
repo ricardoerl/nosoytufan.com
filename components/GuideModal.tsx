@@ -5,7 +5,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { Dialog } from "./Dialog";
 import { CloseIcon, LockIcon, WarningIcon } from "./icons";
 
-// Filas de la mini maqueta de teléfono: 0 normal, 1 resaltada, 2 botón de acción.
+// Rows of the mini phone mockup: 0 normal, 1 highlighted, 2 action button.
 const ROWS: Record<"es" | "en", [string, 0 | 1 | 2][][]> = {
   es: [
     [["Configuración y actividad", 0], ["Centro de cuentas", 1], ["Guardado", 0], ["Tu actividad", 0]],
