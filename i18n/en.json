@@ -115,7 +115,7 @@
         "body": "Format JSON, date range \"All time\" and tap \"Create files\". You'll get an email."
       }
     ],
-    "warning": "Important: choose JSON format (not HTML) and only \"Followers and following\". If you request everything, the file will be too big to read.",
+    "warning": "Important: choose JSON format (not HTML), the \"All time\" date range and only \"Followers and following\". With another range some followers will be missing; if you request everything, the file will be too big.",
     "prev": "Back",
     "next": "Next",
     "done": "Got it, upload file →",
@@ -229,5 +229,10 @@
     "oursTitle": "Our part:",
     "ours": "we have no accounts, no server and no way to see your data. And you don't have to take our word for it: the code is public.",
     "github": "Review the code"
+  },
+  "partial": {
+    "title": "Your file is incomplete.",
+    "body": "It only includes people who started following you on or after {date}, so the list will show people who do follow you. Request the file again with the \"All time\" date range.",
+    "cta": "See how to request it"
   }
 }

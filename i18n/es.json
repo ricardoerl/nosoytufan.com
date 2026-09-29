@@ -115,7 +115,7 @@
         "body": "Formato JSON, intervalo \"Desde el principio\" y toca \"Crear archivos\". Te llegará un correo."
       }
     ],
-    "warning": "Importante: elige formato JSON (no HTML) y solo \"Seguidores y seguidos\". Si pides todo, el archivo pesará demasiado y no podremos leerlo.",
+    "warning": "Importante: elige formato JSON (no HTML), el intervalo \"Desde el principio\" y solo \"Seguidores y seguidos\". Con otro intervalo faltarán seguidores; si pides todo, el archivo pesará demasiado.",
     "prev": "Anterior",
     "next": "Siguiente",
     "done": "Ya lo tengo, subir archivo →",
@@ -229,5 +229,10 @@
     "oursTitle": "Nuestra parte:",
     "ours": "no tenemos cuentas, ni servidor, ni forma de ver tus datos. Y no tienes que creernos: el código es público.",
     "github": "Revisar el código"
+  },
+  "partial": {
+    "title": "Tu archivo está incompleto.",
+    "body": "Solo trae a quien te sigue desde el {date}, así que en la lista saldrá gente que sí te sigue. Pide el archivo otra vez con el intervalo «Desde el principio».",
+    "cta": "Ver cómo pedirlo"
   }
 }

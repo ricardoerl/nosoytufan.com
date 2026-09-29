@@ -13,6 +13,10 @@ export interface FileEntry {
 export interface ParsedLists {
   followers: string[] | null;
   following: string[] | null;
+  /** Oldest entry timestamp per list (Unix seconds), or null when entries carry none. */
+  oldest: { followers: number | null; following: number | null };
+  /** Newest entry timestamp across both lists (Unix seconds): roughly when the export was made. */
+  newest: number | null;
   /** Basenames of the files that yielded usernames. */
   files: string[];
 }
@@ -83,23 +87,41 @@ function usernameFromItem(item: unknown): string | null {
   );
 }
 
+function timestampFromItem(item: unknown): number | null {
+  if (!isRecord(item) || !Array.isArray(item.string_list_data)) return null;
+  const sld: unknown = item.string_list_data[0];
+  const ts = isRecord(sld) ? sld.timestamp : undefined;
+  return typeof ts === "number" && Number.isFinite(ts) && ts > 0 ? ts : null;
+}
+
 function looksLikeItem(item: unknown): boolean {
   return isRecord(item) && ("string_list_data" in item || "title" in item);
 }
 
+const minOf = (a: number | null, b: number | null) => (a === null ? b : b === null ? a : Math.min(a, b));
+const maxOf = (a: number | null, b: number | null) => (a === null ? b : b === null ? a : Math.max(a, b));
+
 /**
- * Extracts usernames from an array of entries. Returns null if the array is not in a known
- * format (which tells "empty list" apart from "schema changed").
+ * Extracts usernames (and the oldest/newest timestamps) from an array of entries. Returns null if
+ * the array is not in a known format (which tells "empty list" apart from "schema changed").
  */
-function extractFromArray(arr: unknown[]): string[] | null {
-  if (arr.length === 0) return [];
+function extractFromArray(
+  arr: unknown[],
+): { usernames: string[]; oldest: number | null; newest: number | null } | null {
+  if (arr.length === 0) return { usernames: [], oldest: null, newest: null };
   if (!arr.some(looksLikeItem)) return null;
-  const out: string[] = [];
+  const usernames: string[] = [];
+  let oldest: number | null = null;
+  let newest: number | null = null;
   for (const item of arr) {
     const u = usernameFromItem(item);
-    if (u) out.push(u);
+    if (!u) continue;
+    usernames.push(u);
+    const ts = timestampFromItem(item);
+    oldest = minOf(oldest, ts);
+    newest = maxOf(newest, ts);
   }
-  return out.length > 0 ? out : null;
+  return usernames.length > 0 ? { usernames, oldest, newest } : null;
 }
 
 /** Finds the list inside an object, preferring relationships_{kind} keys. */
@@ -117,6 +139,9 @@ function findArray(obj: Record<string, unknown>, kind: ListKind | null): { arr: 
 export interface ExtractedFile {
   kind: ListKind;
   usernames: string[];
+  /** Oldest and newest entry timestamps (Unix seconds), or null if entries carry none. */
+  oldest: number | null;
+  newest: number | null;
 }
 
 /**
@@ -126,14 +151,14 @@ export interface ExtractedFile {
 export function extractFromJson(data: unknown, hint: ListKind | null): ExtractedFile | null {
   if (Array.isArray(data)) {
     // A root array is the followers format.
-    const usernames = extractFromArray(data);
-    return usernames ? { kind: hint ?? "followers", usernames } : null;
+    const found = extractFromArray(data);
+    return found ? { kind: hint ?? "followers", ...found } : null;
   }
   if (isRecord(data)) {
-    const found = findArray(data, hint);
-    if (!found) return null;
-    const usernames = extractFromArray(found.arr);
-    return usernames ? { kind: found.kind ?? hint ?? "following", usernames } : null;
+    const list = findArray(data, hint);
+    if (!list) return null;
+    const found = extractFromArray(list.arr);
+    return found ? { kind: list.kind ?? hint ?? "following", ...found } : null;
   }
   return null;
 }
@@ -185,6 +210,8 @@ function collect(items: { entry: FileEntry; hint: ListKind | null }[]): ParseRes
   let hasFollowing = false;
   let parsedAny = false;
   const files: string[] = [];
+  const oldest: ParsedLists["oldest"] = { followers: null, following: null };
+  let newest: number | null = null;
 
   for (const { entry, hint } of items) {
     const parsed = safeJson(entry.text);
@@ -197,6 +224,8 @@ function collect(items: { entry: FileEntry; hint: ListKind | null }[]): ParseRes
     if (extracted.kind === "followers") hasFollowers = true;
     else hasFollowing = true;
     for (const u of extracted.usernames) target.add(u);
+    oldest[extracted.kind] = minOf(oldest[extracted.kind], extracted.oldest);
+    newest = maxOf(newest, extracted.newest);
   }
 
   if (!hasFollowers && !hasFollowing) {
@@ -207,6 +236,8 @@ function collect(items: { entry: FileEntry; hint: ListKind | null }[]): ParseRes
     lists: {
       followers: hasFollowers ? [...followers] : null,
       following: hasFollowing ? [...following] : null,
+      oldest,
+      newest,
       files,
     },
   };
