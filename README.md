@@ -224,6 +224,40 @@ is a compile error). The exported HTML is rendered in `es`; after hydration the 
 - content-based detection of loose `.json` files;
 - comparison: deduplication, ordering, whitelist and the ignored list.
 
+## Git workflow (Git Flow)
+
+| Branch | Created from | Merged into | Purpose |
+|---|---|---|---|
+| `main` | — | — | Production. Every merge is tagged `vX.Y.Z` |
+| `develop` | `main` | — | Integration branch for the next release |
+| `feature/<slug>` | `develop` | `develop` | A new requirement |
+| `bugfix/<slug>` | `develop` | `develop` | A fix for something not yet released |
+| `release/X.Y.Z` | `develop` | `main` (+ back into `develop`) | Release stabilization |
+| `hotfix/<slug>` | `main` | `main` (+ back into `develop`) | Urgent production fix |
+
+All changes land through pull requests; nothing is pushed directly to `main` or `develop`. Commits follow
+[Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, `docs:`…).
+
+```bash
+# new requirement
+git switch develop && git pull
+git switch -c feature/search-by-date
+# …commits…
+git push -u origin feature/search-by-date
+gh pr create --base develop
+
+# release
+git switch -c release/1.1.0 develop
+gh pr create --base main          # after merge: tag v1.1.0 and merge main back into develop
+```
+
+**CI** (`.github/workflows/ci.yml`) runs on every PR and on pushes to `main`/`develop`:
+
+- **Git Flow rules:** rejects PRs whose branch name or target does not match the table above, and fails if
+  internal files (`docs/`, `design/`, `CLAUDE.md`) are tracked.
+- **Verify:** `npm ci`, lint, `tsc --noEmit`, Vitest and the static build; the `out/` export is uploaded as
+  an artifact.
+
 ## Notes
 
 - The build also copies the `zip.worker.ts` source into `out/_next/static/media/` (a Turbopack artifact); the
