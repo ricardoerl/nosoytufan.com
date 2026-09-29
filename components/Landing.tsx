@@ -4,6 +4,7 @@ import { useLocale } from "@/hooks/useLocale";
 import { Dropzone } from "./Dropzone";
 import { HowItWorks } from "./HowItWorks";
 import { HelpIcon } from "./icons";
+import { ThirdPartyRisks } from "./ThirdPartyRisks";
 import type { UploadStatus } from "./UploadStates";
 
 interface Props {
@@ -71,7 +72,7 @@ export function Landing({ status, onFiles, onActivity, onGuide, onReset }: Props
       </section>
 
       <HowItWorks />
-
+      <ThirdPartyRisks />
       <button
         type="button"
         onClick={() => onGuide()}

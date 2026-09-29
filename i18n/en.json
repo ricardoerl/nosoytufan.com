@@ -197,5 +197,38 @@
       }
     ],
     "github": "See the code on GitHub"
+  },
+  "risks": {
+    "eyebrow": "Transparency",
+    "title": "Watch out for apps that ask for your password",
+    "intro": "Lots of “who unfollowed me” apps ask you to log in with your Instagram account. It looks harmless, but you're handing them the keys to your account. Here's what can happen:",
+    "items": [
+      {
+        "title": "They can take over your account",
+        "body": "With your username and password they can change it and lock you out."
+      },
+      {
+        "title": "They can act on your behalf",
+        "body": "Follow accounts, like posts or send spam messages without you noticing."
+      },
+      {
+        "title": "Instagram can block you",
+        "body": "Third-party logins look like suspicious activity, and your account can get limited or suspended."
+      },
+      {
+        "title": "They can sell your data",
+        "body": "Your followers, messages and habits can end up with total strangers."
+      }
+    ],
+    "protectTitle": "How to protect yourself",
+    "tips": [
+      "Only type your password in the official Instagram app or website.",
+      "Check in your Instagram settings which apps and websites have access, and remove the ones you don't use.",
+      "Turn on two-factor authentication.",
+      "If you already gave your password to another app, change it today."
+    ],
+    "oursTitle": "Our part:",
+    "ours": "we have no accounts, no server and no way to see your data. And you don't have to take our word for it: the code is public.",
+    "github": "Review the code"
   }
 }

@@ -14,7 +14,7 @@ export function HowItWorks() {
     <section
       id="como-funciona"
       aria-labelledby="how-title"
-      className="scroll-mt-12 border-t-3 border-chalk px-4 pt-10 pb-32 md:px-12 md:py-16"
+      className="scroll-mt-12 border-t-3 border-chalk px-4 py-10 md:px-12 md:py-16"
     >
       <p className="font-mono text-xs tracking-[0.08em] text-acid uppercase md:text-sm">{t.about.eyebrow}</p>
       <h2
