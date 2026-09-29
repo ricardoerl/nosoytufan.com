@@ -25,10 +25,7 @@ export function Landing({ status, onFiles, onActivity, onGuide, onReset }: Props
             <span className="text-neon">{t.landing.titleNo}</span>
             {t.landing.titleAfter}
           </h1>
-          <p className="max-w-[520px] text-base leading-normal text-chalk-dim md:text-xl">
-            <span className="md:hidden">{t.landing.subtitleMobile}</span>
-            <span className="hidden md:inline">{t.landing.subtitle}</span>
-          </p>
+          <p className="max-w-[520px] text-base leading-normal text-chalk-dim md:text-xl">{t.landing.subtitle}</p>
           <ul className="hidden flex-wrap gap-2.5 md:flex">
             {t.landing.pills.map((p) => (
               <li key={p} className="border-2 border-ash px-3 py-2 font-mono text-[13px] text-chalk-dim">

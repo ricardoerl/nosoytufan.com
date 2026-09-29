@@ -29,15 +29,12 @@ interface LocaleCtx {
 const Ctx = createContext<LocaleCtx | null>(null);
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  // The static HTML is rendered in Spanish; the actual locale is chosen after hydration.
+  // Spanish is the default; English only applies once the user picks it (restored after hydration).
   const [locale, setLocaleState] = useState<Locale>("es");
 
   useEffect(() => {
-    const saved = storage.get(KEY);
-    const next: Locale =
-      saved === "es" || saved === "en" ? saved : navigator.language.toLowerCase().startsWith("es") ? "es" : "en";
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- detection after hydration, on purpose
-    setLocaleState(next);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- restore the saved choice after hydration
+    if (storage.get(KEY) === "en") setLocaleState("en");
   }, []);
 
   useEffect(() => {

@@ -168,8 +168,9 @@ hides after 5 s.
 ### i18n
 
 `LocaleProvider` statically imports `i18n/es.json` and `i18n/en.json` (typed as `typeof es`, so a missing key
-is a compile error). The exported HTML is rendered in `es`; after hydration the locale is picked from
-`localStorage` or `navigator.language`, which avoids a hydration mismatch. `<html lang>` is updated at runtime.
+is a compile error). Spanish is the default: the exported HTML is rendered in `es`, and English is only used
+when the user picks it in the toggle (saved in `localStorage` and restored after hydration, which avoids a
+hydration mismatch). The browser language is not used. `<html lang>` is updated at runtime.
 `next-intl` was avoided because its per-locale routing does not fit `output: "export"`.
 
 ### Share story (`lib/story/render.ts`)
