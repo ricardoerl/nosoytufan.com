@@ -225,6 +225,30 @@ hydration mismatch). The browser language is not used. `<html lang>` is updated 
 - content-based detection of loose `.json` files;
 - comparison: deduplication, ordering, whitelist and the ignored list.
 
+## Deployment (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds the static export and publishes `out/` to GitHub Pages on every push to
+`main` (i.e. every merged `release/*` or `hotfix/*`), or manually via *Run workflow*.
+
+One-time repository setup:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. **Settings → Pages → Custom domain:** `nosoytufan.com`, then enable **Enforce HTTPS** once the certificate is issued.
+   With Actions-based Pages the domain lives in the repo settings; a `CNAME` file is not used.
+3. **Settings → Environments → github-pages → Deployment branches:** allow `main` (by default only the
+   default branch, `develop`, may deploy).
+4. Recommended: verify the domain under your GitHub account's **Settings → Pages** to prevent takeovers.
+
+DNS records at the domain registrar:
+
+| Host | Type | Value |
+|---|---|---|
+| `@` | `A` | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+| `@` | `AAAA` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+| `www` | `CNAME` | `ricardoerl.github.io` |
+
+The site is served from the domain root, so no `basePath` is needed.
+
 ## Git workflow (Git Flow)
 
 | Branch | Created from | Merged into | Purpose |
