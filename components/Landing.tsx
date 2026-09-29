@@ -2,7 +2,9 @@
 
 import { useLocale } from "@/hooks/useLocale";
 import { Dropzone } from "./Dropzone";
+import { HowItWorks } from "./HowItWorks";
 import { HelpIcon } from "./icons";
+import { ThirdPartyRisks } from "./ThirdPartyRisks";
 import type { UploadStatus } from "./UploadStates";
 
 interface Props {
@@ -25,10 +27,7 @@ export function Landing({ status, onFiles, onActivity, onGuide, onReset }: Props
             <span className="text-neon">{t.landing.titleNo}</span>
             {t.landing.titleAfter}
           </h1>
-          <p className="max-w-[520px] text-base leading-normal text-chalk-dim md:text-xl">
-            <span className="md:hidden">{t.landing.subtitleMobile}</span>
-            <span className="hidden md:inline">{t.landing.subtitle}</span>
-          </p>
+          <p className="max-w-[520px] text-base leading-normal text-chalk-dim md:text-xl">{t.landing.subtitle}</p>
           <ul className="hidden flex-wrap gap-2.5 md:flex">
             {t.landing.pills.map((p) => (
               <li key={p} className="border-2 border-ash px-3 py-2 font-mono text-[13px] text-chalk-dim">
@@ -36,6 +35,9 @@ export function Landing({ status, onFiles, onActivity, onGuide, onReset }: Props
               </li>
             ))}
           </ul>
+          <a href="#como-funciona" className="self-start font-bold text-acid underline hover:text-neon">
+            {t.about.jump}
+          </a>
         </div>
 
         <div className="flex min-w-0 grow flex-col gap-5">
@@ -49,7 +51,7 @@ export function Landing({ status, onFiles, onActivity, onGuide, onReset }: Props
         </div>
       </main>
 
-      <section className="mt-10 grid border-t-3 border-chalk pb-28 md:grid-cols-3 md:pb-0">
+      <section className="mt-10 grid border-t-3 border-chalk md:grid-cols-3">
         {t.landing.steps.map((s, i) => (
           <div
             key={s.title}
@@ -66,6 +68,8 @@ export function Landing({ status, onFiles, onActivity, onGuide, onReset }: Props
         ))}
       </section>
 
+      <HowItWorks />
+      <ThirdPartyRisks />
       <button
         type="button"
         onClick={() => onGuide()}

@@ -1,14 +1,14 @@
 {
   "trust": {
-    "openSource": "100% Open Source",
-    "inBrowser": "Processed in your browser",
-    "noServers": "Zero servers",
-    "noTheft": "Zero account theft",
-    "full": "100% Open Source. Processed in your browser. Zero servers. Zero account theft.",
+    "openSource": "Open source",
+    "inBrowser": "Runs in your browser",
+    "noServers": "No passwords",
+    "noTheft": "Your data stays here",
+    "full": "Open source. Runs in your browser. No passwords. Your data stays here.",
     "short": [
-      "Open Source",
+      "Open source",
       "In your browser",
-      "0 servers"
+      "No passwords"
     ]
   },
   "header": {
@@ -23,28 +23,28 @@
     "titleBefore": "Who's ",
     "titleNo": "not",
     "titleAfter": " following you back?",
-    "subtitle": "Drop the .zip Instagram sends you and see who thinks they're a celebrity in seconds. Everything happens in your browser: your file never leaves your device.",
+    "subtitle": "Upload the file Instagram sends you and see who doesn't follow you back in seconds. Your file never leaves your device.",
     "pills": [
-      "No backend",
-      ".zip straight in, no unzipping",
+      "No sign-up",
+      "No unzipping",
       "Free"
     ],
-    "dropTitle": "Drop your Instagram .zip here",
-    "dropTitleMobile": "Tap to pick your .zip",
+    "dropTitle": "Drop your Instagram file here",
+    "dropTitleMobile": "Tap to pick your file",
     "dropOr": "or",
     "dropPick": "click to choose it",
     "dropFromDevice": "from your device",
-    "dropMeta": ".zip or .json · max 50 MB · nothing is uploaded anywhere",
+    "dropMeta": ".zip or .json · up to 50 MB · never uploaded anywhere",
     "noFile": "Don't have the file yet?",
     "seeGuide": "See how to request it in 4 steps →",
     "steps": [
       {
         "title": "Request your data from Instagram",
-        "body": "Followers and following only, in JSON."
+        "body": "Followers and following only, in JSON format."
       },
       {
-        "title": "Drop the .zip here",
-        "body": "No need to unzip it."
+        "title": "Upload the file here",
+        "body": "Just as you got it, no unzipping."
       },
       {
         "title": "See who thinks they're a celebrity",
@@ -54,34 +54,33 @@
     "idleToastTitle": "Waiting on Instagram?",
     "idleToastBody": "Sometimes the email takes 10 minutes. Grab a coffee and come back.",
     "closeToast": "Dismiss",
-    "subtitleMobile": "Upload the Instagram .zip. It is processed on your phone; it never leaves it.",
-    "dropMetaMobile": ".zip or .json · max 50 MB"
+    "dropMetaMobile": ".zip or .json · up to 50 MB"
   },
   "states": {
     "dragTitle": "Drop it. No fear.",
     "dragBody": "We read it right here, it never gets uploaded.",
     "processingTitle": "Counting betrayals…",
-    "processingUnzip": "Unzipping the .zip",
+    "processingUnzip": "Opening your file",
     "processingFound": "{file} found",
-    "processingCompare": "Comparing following…",
+    "processingCompare": "Comparing lists…",
     "tooBigTitle": "That's your whole life, not your followers.",
-    "tooBigBody": "The file is {size} MB. Make sure you request ONLY your followers information (max 50 MB).",
+    "tooBigBody": "It's {size} MB: you probably requested everything. Request only followers and following (max 50 MB).",
     "tooBigCta": "See how to request it right",
     "wrongFileTitle": "Oh no, this doesn't look like the right Instagram file.",
-    "wrongFileBody": "If it is, Instagram may have changed its format. We're on it: check back soon.",
+    "wrongFileBody": "If it is, Instagram may have changed its format. Try again later.",
     "schemaChangedTitle": "Instagram updated its format.",
-    "schemaChangedBody": "We need to update the app to read your file. Let us know on GitHub.",
+    "schemaChangedBody": "The app needs an update to read your file. Let us know on GitHub.",
     "tryAnother": "Try another",
     "reportGithub": "Report on GitHub",
     "progressLabel": "Progress",
-    "htmlTitle": "That file is in HTML.",
-    "htmlBody": "We need the JSON format. Request your information again choosing JSON in the format step.",
-    "htmlCta": "See the format step",
+    "htmlTitle": "That file isn't in the right format.",
+    "htmlBody": "Request it from Instagram again and choose the JSON format.",
+    "htmlCta": "See how to choose it",
     "needOtherTitle": "You are missing the other half.",
-    "needOtherBody": "We already have {have}. Now drop {missing}.",
+    "needOtherBody": "We already have {have}. Now upload {missing}.",
     "kinds": {
-      "followers": "followers_1.json (who follows you)",
-      "following": "following.json (who you follow)"
+      "followers": "your followers list (followers_1.json)",
+      "following": "your following list (following.json)"
     },
     "cancel": "Start over",
     "pickOther": "Pick the other file"
@@ -116,7 +115,7 @@
         "body": "Format JSON, date range \"All time\" and tap \"Create files\". You'll get an email."
       }
     ],
-    "warning": "Important: JSON format (not HTML) and only \"Followers and following\". If you request everything, the file will weigh gigabytes of photos and we'll reject it.",
+    "warning": "Important: choose JSON format (not HTML) and only \"Followers and following\". If you request everything, the file will be too big to read.",
     "prev": "Back",
     "next": "Next",
     "done": "Got it, upload file →",
@@ -137,13 +136,13 @@
     "tabIgnored": "Ignored · {count}",
     "viewProfile": "View profile",
     "ignore": "Ignore @{user}",
-    "ignoreTitle": "Ignore (whitelist)",
+    "ignoreTitle": "Ignore",
     "restore": "Restore",
     "empty": "Nobody here by that name. Maybe they do follow you (miracle).",
     "zero": "Everyone follows you back. You're the exception.",
-    "showing": "Showing {shown} of {total} · The whitelist is stored only in this browser.",
+    "showing": "Showing {shown} of {total} · Ignored accounts are only saved in this browser.",
     "loadMore": "Load more",
-    "undoMsg": "@{user} went to the whitelist. You won't see them again.",
+    "undoMsg": "@{user} won't show up in your list anymore.",
     "undo": "Undo",
     "back": "Back to home",
     "noIgnored": "You haven’t ignored anyone yet. The ghost is waiting."
@@ -162,15 +161,73 @@
     "showNumberHint": "Usernames are never included.",
     "storyHeadline": "I just cleaned up my Instagram on nosoytufan.com",
     "storyCount": "people thought they were celebrities",
-    "storyFooter": "No passwords · 100% in the browser",
+    "storyFooter": "No passwords · All in your browser",
     "storyCta": "Try it: nosoytufan.com",
     "shareStories": "Share to Stories",
     "download": "Download PNG",
     "copyLink": "Copy link",
     "linkCopied": "Link copied!",
-    "meta": "Image is generated on your device · 1080 × 1920 px",
+    "meta": "Made on your device · 1080 × 1920 px",
     "previewLabel": "Story preview",
     "shareText": "I just cleaned up my Instagram on nosoytufan.com",
     "error": "Could not share. Try downloading the PNG."
+  },
+  "about": {
+    "jump": "How does it work? ↓",
+    "eyebrow": "How it works",
+    "title": "Why trust a website you've never heard of?",
+    "intro": "Because we don't ask you for anything. You download your data from Instagram and this page reads it right here, in your browser.",
+    "items": [
+      {
+        "title": "Your file never travels",
+        "body": "It's read on your device. There's no server to upload it to, even if we wanted one."
+      },
+      {
+        "title": "We never ask for your password",
+        "body": "You use the official file Instagram gives you. Your account is never at risk."
+      },
+      {
+        "title": "Open source",
+        "body": "Anyone can review the code and check that we're not cheating."
+      },
+      {
+        "title": "We don't keep anything",
+        "body": "Your lists disappear when you close the tab. We only remember who you ignore, and only in this browser."
+      }
+    ],
+    "github": "See the code on GitHub"
+  },
+  "risks": {
+    "eyebrow": "Transparency",
+    "title": "Watch out for apps that ask for your password",
+    "intro": "Lots of “who unfollowed me” apps ask you to log in with your Instagram account. It looks harmless, but you're handing them the keys to your account. Here's what can happen:",
+    "items": [
+      {
+        "title": "They can take over your account",
+        "body": "With your username and password they can change it and lock you out."
+      },
+      {
+        "title": "They can act on your behalf",
+        "body": "Follow accounts, like posts or send spam messages without you noticing."
+      },
+      {
+        "title": "Instagram can block you",
+        "body": "Third-party logins look like suspicious activity, and your account can get limited or suspended."
+      },
+      {
+        "title": "They can sell your data",
+        "body": "Your followers, messages and habits can end up with total strangers."
+      }
+    ],
+    "protectTitle": "How to protect yourself",
+    "tips": [
+      "Only type your password in the official Instagram app or website.",
+      "Check in your Instagram settings which apps and websites have access, and remove the ones you don't use.",
+      "Turn on two-factor authentication.",
+      "If you already gave your password to another app, change it today."
+    ],
+    "oursTitle": "Our part:",
+    "ours": "we have no accounts, no server and no way to see your data. And you don't have to take our word for it: the code is public.",
+    "github": "Review the code"
   }
 }

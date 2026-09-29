@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  gitflow:
+    name: Git Flow rules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name and PR target
+        if: github.event_name == 'pull_request'
+        env:
+          HEAD: ${{ github.head_ref }}
+          BASE: ${{ github.base_ref }}
+        run: |
+          # feature/* and bugfix/*  -> develop
+          # release/* and hotfix/*  -> main
+          # main, release/*, hotfix/* -> develop (back-merges after a release or hotfix)
+          slug='[a-z0-9][a-z0-9._-]*'
+          ok=false
+          case "$BASE" in
+            develop)
+              if [[ "$HEAD" =~ ^(feature|bugfix|release|hotfix)/$slug$ || "$HEAD" == "main" ]]; then ok=true; fi ;;
+            main)
+              if [[ "$HEAD" =~ ^release/[0-9]+\.[0-9]+\.[0-9]+$ || "$HEAD" =~ ^hotfix/$slug$ ]]; then ok=true; fi ;;
+          esac
+          if [[ "$ok" != true ]]; then
+            echo "::error::Branch '$HEAD' cannot be merged into '$BASE'. Use feature/* or bugfix/* -> develop, release/X.Y.Z or hotfix/* -> main."
+            exit 1
+          fi
+          echo "OK: $HEAD -> $BASE"
+
+      - uses: actions/checkout@v4
+      - name: Keep internal docs out of the repo
+        run: |
+          leaked=$(git ls-files docs design CLAUDE.md)
+          if [[ -n "$leaked" ]]; then
+            echo "::error::Internal files must not be committed:"
+            echo "$leaked"
+            exit 1
+          fi
+
+  verify:
+    name: Lint, typecheck, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+      - run: npm run build
+      - name: Upload static export
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: out
+          retention-days: 7

@@ -46,7 +46,7 @@ app/
   apple-icon.png        180×180 app icon
 components/
   TrustBanner  Header  LangToggle  Wordmark  LogoMark
-  Landing  Dropzone  UploadStates  IdleToast
+  Landing  Dropzone  UploadStates  IdleToast  HowItWorks  ThirdPartyRisks
   Dialog  GuideModal
   Results  Odometer  Stats  SearchBar  ResultTabs  UserCard  UndoSnackbar
   ShareModal  StoryPreview
@@ -168,8 +168,9 @@ hides after 5 s.
 ### i18n
 
 `LocaleProvider` statically imports `i18n/es.json` and `i18n/en.json` (typed as `typeof es`, so a missing key
-is a compile error). The exported HTML is rendered in `es`; after hydration the locale is picked from
-`localStorage` or `navigator.language`, which avoids a hydration mismatch. `<html lang>` is updated at runtime.
+is a compile error). Spanish is the default: the exported HTML is rendered in `es`, and English is only used
+when the user picks it in the toggle (saved in `localStorage` and restored after hydration, which avoids a
+hydration mismatch). The browser language is not used. `<html lang>` is updated at runtime.
 `next-intl` was avoided because its per-locale routing does not fit `output: "export"`.
 
 ### Share story (`lib/story/render.ts`)
@@ -223,6 +224,64 @@ is a compile error). The exported HTML is rendered in `es`; after hydration the 
 - `not-instagram` (no candidates, HTML, corrupt JSON) and `schema-changed` errors;
 - content-based detection of loose `.json` files;
 - comparison: deduplication, ordering, whitelist and the ignored list.
+
+## Deployment (GitHub Pages)
+
+`.github/workflows/deploy.yml` builds the static export and publishes `out/` to GitHub Pages on every push to
+`main` (i.e. every merged `release/*` or `hotfix/*`), or manually via *Run workflow*.
+
+One-time repository setup:
+
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions.**
+2. **Settings → Pages → Custom domain:** `nosoytufan.com`, then enable **Enforce HTTPS** once the certificate is issued.
+   With Actions-based Pages the domain lives in the repo settings; a `CNAME` file is not used.
+3. **Settings → Environments → github-pages → Deployment branches:** allow `main` (by default only the
+   default branch, `develop`, may deploy).
+4. Recommended: verify the domain under your GitHub account's **Settings → Pages** to prevent takeovers.
+
+DNS records at the domain registrar:
+
+| Host | Type | Value |
+|---|---|---|
+| `@` | `A` | `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` |
+| `@` | `AAAA` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` |
+| `www` | `CNAME` | `ricardoerl.github.io` |
+
+The site is served from the domain root, so no `basePath` is needed.
+
+## Git workflow (Git Flow)
+
+| Branch | Created from | Merged into | Purpose |
+|---|---|---|---|
+| `main` | — | — | Production. Every merge is tagged `vX.Y.Z` |
+| `develop` | `main` | — | Integration branch for the next release |
+| `feature/<slug>` | `develop` | `develop` | A new requirement |
+| `bugfix/<slug>` | `develop` | `develop` | A fix for something not yet released |
+| `release/X.Y.Z` | `develop` | `main` (+ back into `develop`) | Release stabilization |
+| `hotfix/<slug>` | `main` | `main` (+ back into `develop`) | Urgent production fix |
+
+All changes land through pull requests; nothing is pushed directly to `main` or `develop`. Commits follow
+[Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, `docs:`…).
+
+```bash
+# new requirement
+git switch develop && git pull
+git switch -c feature/search-by-date
+# …commits…
+git push -u origin feature/search-by-date
+gh pr create --base develop
+
+# release
+git switch -c release/1.1.0 develop
+gh pr create --base main          # after merge: tag v1.1.0 and merge main back into develop
+```
+
+**CI** (`.github/workflows/ci.yml`) runs on every PR and on pushes to `main`/`develop`:
+
+- **Git Flow rules:** rejects PRs whose branch name or target does not match the table above, and fails if
+  internal files (`docs/`, `design/`, `CLAUDE.md`) are tracked.
+- **Verify:** `npm ci`, lint, `tsc --noEmit`, Vitest and the static build; the `out/` export is uploaded as
+  an artifact.
 
 ## Notes
 

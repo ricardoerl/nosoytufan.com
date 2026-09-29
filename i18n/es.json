@@ -1,14 +1,14 @@
 {
   "trust": {
-    "openSource": "100% Open Source",
-    "inBrowser": "Procesado en tu navegador",
-    "noServers": "Cero servidores",
-    "noTheft": "Cero robos de cuenta",
-    "full": "100% Open Source. Procesado en tu navegador. Cero servidores. Cero robos de cuenta.",
+    "openSource": "Código abierto",
+    "inBrowser": "Todo pasa en tu navegador",
+    "noServers": "Sin contraseñas",
+    "noTheft": "Tus datos no salen de aquí",
+    "full": "Código abierto. Todo pasa en tu navegador. Sin contraseñas. Tus datos no salen de aquí.",
     "short": [
-      "Open Source",
+      "Código abierto",
       "En tu navegador",
-      "0 servidores"
+      "Sin contraseñas"
     ]
   },
   "header": {
@@ -23,28 +23,28 @@
     "titleBefore": "¿Quién ",
     "titleNo": "no",
     "titleAfter": " te sigue de vuelta?",
-    "subtitle": "Suelta el .zip que te manda Instagram y en segundos ves quién se cree celebridad. Todo pasa en tu navegador: tu archivo nunca sale de tu dispositivo.",
+    "subtitle": "Sube el archivo que te manda Instagram y en segundos ves quién no te sigue. Tu archivo nunca sale de tu dispositivo.",
     "pills": [
-      "Sin backend",
-      ".zip directo, sin descomprimir",
+      "Sin registro",
+      "Sin descomprimir nada",
       "Gratis"
     ],
-    "dropTitle": "Suelta aquí tu .zip de Instagram",
-    "dropTitleMobile": "Toca para elegir tu .zip",
+    "dropTitle": "Suelta aquí tu archivo de Instagram",
+    "dropTitleMobile": "Toca para elegir tu archivo",
     "dropOr": "o",
     "dropPick": "haz clic para elegirlo",
     "dropFromDevice": "desde tu dispositivo",
-    "dropMeta": ".zip o .json · máx. 50 MB · nada se sube a ningún servidor",
+    "dropMeta": ".zip o .json · hasta 50 MB · no se sube a ningún sitio",
     "noFile": "¿Aún no tienes el archivo?",
     "seeGuide": "Mira cómo pedirlo en 4 pasos →",
     "steps": [
       {
         "title": "Pide tus datos a Instagram",
-        "body": "Solo seguidores y seguidos, en JSON."
+        "body": "Solo seguidores y seguidos, en formato JSON."
       },
       {
-        "title": "Suelta el .zip aquí",
-        "body": "No hace falta descomprimirlo."
+        "title": "Sube el archivo aquí",
+        "body": "Tal cual te llega, sin descomprimir."
       },
       {
         "title": "Mira quién se cree celebridad",
@@ -54,34 +54,33 @@
     "idleToastTitle": "¿Esperando a Instagram?",
     "idleToastBody": "A veces el correo tarda 10 minutos. Ve por un café y vuelve.",
     "closeToast": "Cerrar aviso",
-    "subtitleMobile": "Sube el .zip de Instagram. Se procesa en tu móvil; nunca sale de aquí.",
-    "dropMetaMobile": ".zip o .json · máx. 50 MB"
+    "dropMetaMobile": ".zip o .json · hasta 50 MB"
   },
   "states": {
     "dragTitle": "Suéltalo. Sin miedo.",
     "dragBody": "Lo leemos aquí mismo, no lo subimos a ningún lado.",
     "processingTitle": "Contando traiciones…",
-    "processingUnzip": "Descomprimiendo el .zip",
+    "processingUnzip": "Abriendo tu archivo",
     "processingFound": "{file} encontrado",
-    "processingCompare": "Comparando following…",
+    "processingCompare": "Comparando listas…",
     "tooBigTitle": "Eso es tu vida entera, no tus seguidores.",
-    "tooBigBody": "El archivo pesa {size} MB. Asegúrate de pedir SOLO la información de seguidores (máx. 50 MB).",
+    "tooBigBody": "Pesa {size} MB: seguro pediste todo. Pide solo seguidores y seguidos (máx. 50 MB).",
     "tooBigCta": "Ver cómo pedirlo bien",
     "wrongFileTitle": "Oh no, el archivo no parece ser el correcto de Instagram.",
-    "wrongFileBody": "Si sí lo es, puede que Instagram haya cambiado su formato. Ya estamos en ello: vuelve pronto.",
+    "wrongFileBody": "Si lo es, puede que Instagram haya cambiado su formato. Vuelve a intentarlo más tarde.",
     "schemaChangedTitle": "Instagram actualizó su formato.",
-    "schemaChangedBody": "Necesitamos actualizar la app para leer tu archivo. Avísanos en GitHub.",
+    "schemaChangedBody": "Hay que actualizar la app para leer tu archivo. Avísanos en GitHub.",
     "tryAnother": "Probar otro",
     "reportGithub": "Avisar en GitHub",
     "progressLabel": "Progreso",
-    "htmlTitle": "Ese archivo está en HTML.",
-    "htmlBody": "Necesitamos el formato JSON. Pide tu información otra vez eligiendo JSON en el paso del formato.",
-    "htmlCta": "Ver el paso del formato",
+    "htmlTitle": "Ese archivo no está en el formato correcto.",
+    "htmlBody": "Pídelo otra vez a Instagram eligiendo el formato JSON.",
+    "htmlCta": "Ver cómo elegirlo",
     "needOtherTitle": "Te falta la otra mitad.",
-    "needOtherBody": "Ya tenemos {have}. Ahora suelta {missing}.",
+    "needOtherBody": "Ya tenemos {have}. Ahora sube {missing}.",
     "kinds": {
-      "followers": "followers_1.json (quién te sigue)",
-      "following": "following.json (a quién sigues)"
+      "followers": "tu lista de seguidores (followers_1.json)",
+      "following": "tu lista de seguidos (following.json)"
     },
     "cancel": "Empezar de cero",
     "pickOther": "Elegir el otro archivo"
@@ -116,7 +115,7 @@
         "body": "Formato JSON, intervalo \"Desde el principio\" y toca \"Crear archivos\". Te llegará un correo."
       }
     ],
-    "warning": "Importante: formato JSON (no HTML) y marca solo \"Seguidores y seguidos\". Si pides todo, el archivo pesará gigas con tus fotos y lo vamos a rechazar.",
+    "warning": "Importante: elige formato JSON (no HTML) y solo \"Seguidores y seguidos\". Si pides todo, el archivo pesará demasiado y no podremos leerlo.",
     "prev": "Anterior",
     "next": "Siguiente",
     "done": "Ya lo tengo, subir archivo →",
@@ -137,13 +136,13 @@
     "tabIgnored": "Ignorados · {count}",
     "viewProfile": "Ver perfil",
     "ignore": "Ignorar a @{user}",
-    "ignoreTitle": "Ignorar (whitelist)",
+    "ignoreTitle": "Ignorar",
     "restore": "Restaurar",
     "empty": "Nadie por aquí con ese nombre. Tal vez sí te sigue (milagro).",
     "zero": "Todos te siguen de vuelta. Eres la excepción.",
-    "showing": "Mostrando {shown} de {total} · La whitelist se guarda solo en este navegador.",
+    "showing": "Mostrando {shown} de {total} · Tus ignorados solo se guardan en este navegador.",
     "loadMore": "Cargar más",
-    "undoMsg": "@{user} se fue a la whitelist. Ya no lo verás.",
+    "undoMsg": "@{user} ya no aparecerá en tu lista.",
     "undo": "Deshacer",
     "back": "Volver al inicio",
     "noIgnored": "Aún no has ignorado a nadie. El fantasma está esperando."
@@ -162,15 +161,73 @@
     "showNumberHint": "Nunca se incluyen nombres de usuario.",
     "storyHeadline": "Acabo de limpiar mi Instagram en nosoytufan.com",
     "storyCount": "personas se creían celebridades",
-    "storyFooter": "Sin contraseñas · 100% en el navegador",
+    "storyFooter": "Sin contraseñas · Todo en tu navegador",
     "storyCta": "Pruébalo: nosoytufan.com",
     "shareStories": "Compartir en Stories",
     "download": "Descargar PNG",
     "copyLink": "Copiar enlace",
     "linkCopied": "¡Enlace copiado!",
-    "meta": "La imagen se genera en tu dispositivo · 1080 × 1920 px",
+    "meta": "Se genera en tu dispositivo · 1080 × 1920 px",
     "previewLabel": "Vista previa de la story",
     "shareText": "Acabo de limpiar mi Instagram en nosoytufan.com",
     "error": "No se pudo compartir. Prueba a descargar el PNG."
+  },
+  "about": {
+    "jump": "¿Cómo funciona? ↓",
+    "eyebrow": "Cómo funciona",
+    "title": "¿Por qué fiarte de una web que no conoces?",
+    "intro": "Porque no te pedimos nada. Tú descargas tus datos de Instagram y esta página los lee aquí mismo, en tu navegador.",
+    "items": [
+      {
+        "title": "Tu archivo no viaja",
+        "body": "Se lee en tu dispositivo. No hay ningún servidor al que subirlo, ni aunque quisiéramos."
+      },
+      {
+        "title": "Nunca te pedimos la contraseña",
+        "body": "Usas el archivo oficial que te da Instagram. Tu cuenta no corre ningún riesgo."
+      },
+      {
+        "title": "Código abierto",
+        "body": "Cualquiera puede revisar el código y comprobar que no hacemos trampa."
+      },
+      {
+        "title": "No guardamos nada",
+        "body": "Tus listas desaparecen al cerrar la pestaña. Solo recordamos a quién ignoras, y solo en este navegador."
+      }
+    ],
+    "github": "Ver el código en GitHub"
+  },
+  "risks": {
+    "eyebrow": "Transparencia",
+    "title": "Ojo con las apps que te piden la contraseña",
+    "intro": "Muchas apps de «quién te dejó de seguir» te piden entrar con tu cuenta de Instagram. Parece inofensivo, pero les das las llaves de tu cuenta. Esto es lo que puede pasar:",
+    "items": [
+      {
+        "title": "Pueden quedarse con tu cuenta",
+        "body": "Con tu usuario y contraseña pueden cambiarla y dejarte fuera."
+      },
+      {
+        "title": "Pueden actuar en tu nombre",
+        "body": "Seguir cuentas, dar likes o mandar mensajes de spam sin que te enteres."
+      },
+      {
+        "title": "Instagram puede bloquearte",
+        "body": "Los accesos de apps externas parecen actividad sospechosa y pueden limitar o suspender tu cuenta."
+      },
+      {
+        "title": "Pueden vender tus datos",
+        "body": "Tus seguidores, tus mensajes y tus hábitos pueden acabar en manos de desconocidos."
+      }
+    ],
+    "protectTitle": "Cómo protegerte",
+    "tips": [
+      "Escribe tu contraseña solo en la app o la web oficial de Instagram.",
+      "Revisa en la configuración de Instagram qué apps y sitios web tienen acceso, y quita los que no uses.",
+      "Activa la verificación en dos pasos.",
+      "Si ya le diste tu contraseña a otra app, cámbiala hoy."
+    ],
+    "oursTitle": "Nuestra parte:",
+    "ours": "no tenemos cuentas, ni servidor, ni forma de ver tus datos. Y no tienes que creernos: el código es público.",
+    "github": "Revisar el código"
   }
 }
