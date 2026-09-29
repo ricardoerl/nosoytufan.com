@@ -172,5 +172,30 @@
     "previewLabel": "Story preview",
     "shareText": "I just cleaned up my Instagram on nosoytufan.com",
     "error": "Could not share. Try downloading the PNG."
+  },
+  "about": {
+    "jump": "How does it work? ↓",
+    "eyebrow": "How it works",
+    "title": "Why trust a website you've never heard of?",
+    "intro": "Because we don't ask you for anything. You download your data from Instagram and this page reads it right here, in your browser.",
+    "items": [
+      {
+        "title": "Your file never travels",
+        "body": "It's read on your device. There's no server to upload it to, even if we wanted one."
+      },
+      {
+        "title": "We never ask for your password",
+        "body": "You use the official file Instagram gives you. Your account is never at risk."
+      },
+      {
+        "title": "Open source",
+        "body": "Anyone can review the code and check that we're not cheating."
+      },
+      {
+        "title": "We don't keep anything",
+        "body": "Your lists disappear when you close the tab. We only remember who you ignore, and only in this browser."
+      }
+    ],
+    "github": "See the code on GitHub"
   }
 }

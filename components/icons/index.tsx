@@ -80,6 +80,20 @@ export const LockIcon = (p: P) => (
   </svg>
 );
 
+export const DeviceIcon = (p: P) => (
+  <svg {...base(p, 2.5)}>
+    <rect x="6" y="2" width="12" height="20" />
+    <path d="M11 18h2" />
+  </svg>
+);
+
+export const CodeIcon = (p: P) => (
+  <svg {...base(p, 2.5)}>
+    <path d="M8 7l-5 5 5 5M16 7l5 5-5 5" />
+    <path d="M14 4l-4 16" />
+  </svg>
+);
+
 export const CoffeeIcon = (p: P) => (
   <svg {...base(p, 2)}>
     <path d="M4 9h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z" />
